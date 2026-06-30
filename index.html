@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diata Health — Patient Coordinator Audition</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#20307f;
+    --accent:#d4e5f6;
+    --ink:#0b0b0b;
+    --muted:#5d6677;
+    --line:#e3e8f0;
+    --red:#d02e2e;
+    --bg:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:'Lora',Georgia,serif;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:740px;margin:0 auto;padding:38px 24px 90px;}
+  .wordmark{font-family:'Libre Baskerville',Georgia,serif;font-weight:700;
+    letter-spacing:.22em;text-transform:uppercase;font-size:15px;color:var(--navy);}
+  h1{font-family:'Libre Baskerville',Georgia,serif;font-weight:700;font-size:32px;
+    line-height:1.2;margin:12px 0 8px;color:var(--navy);}
+  h2{font-family:'Libre Baskerville',Georgia,serif;color:var(--navy);}
+  .sub{color:var(--muted);font-size:17px;margin-bottom:30px;}
+  .card{background:var(--accent);border-radius:16px;padding:28px;margin-bottom:22px;}
+  .step{display:flex;gap:15px;margin:0 0 18px;}
+  .step:last-child{margin-bottom:0;}
+  .num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;
+    font-family:'Lora',serif;}
+  .step p{margin:2px 0;}
+  .step .lead{font-weight:700;color:var(--navy);}
+  .warn{border:1px solid var(--red);border-left:5px solid var(--red);border-radius:12px;
+    padding:15px 18px;font-size:15.5px;margin:20px 0;color:#7a1414;background:#fef6f6;}
+  .field{margin:24px 0 6px;}
+  .field label{display:block;font-weight:700;color:var(--navy);margin-bottom:8px;font-size:15px;}
+  .field input[type=text]{width:100%;padding:15px 16px;font-size:17px;font-family:'Lora',serif;
+    border:1.5px solid var(--line);border-radius:10px;outline:none;}
+  .field input[type=text]:focus{border-color:var(--navy);}
+  .btn{display:block;background:var(--navy);color:#fff;border:none;border-radius:11px;
+    padding:17px 26px;font-size:17px;font-weight:700;font-family:'Lora',serif;cursor:pointer;
+    width:100%;text-align:center;transition:opacity .15s;margin-top:18px;}
+  .btn:hover{opacity:.92;}
+  .btn:disabled{background:#aeb6c9;cursor:not-allowed;}
+  .check{display:flex;align-items:flex-start;gap:11px;margin:18px 0 4px;font-size:15px;}
+  .check input{margin-top:5px;transform:scale(1.3);accent-color:var(--navy);}
+  /* timer */
+  #timerBar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);
+    padding:16px 0 14px;margin:-38px -24px 26px;text-align:center;z-index:10;}
+  #timer{font-family:'Libre Baskerville',serif;font-size:44px;font-weight:700;color:var(--navy);
+    font-variant-numeric:tabular-nums;letter-spacing:.02em;}
+  #timer.low{color:var(--red);}
+  #timerLabel{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+  .q{background:var(--accent);border-left:5px solid var(--navy);border-radius:10px;
+    padding:17px 19px;margin:0 0 14px;font-size:17px;}
+  .q b{font-family:'Libre Baskerville',serif;color:var(--navy);}
+  /* corner recording slate */
+  #slate{position:fixed;bottom:18px;right:18px;background:var(--navy);color:#fff;
+    border-radius:11px;padding:11px 15px;font-family:'Lora',serif;font-size:14.5px;
+    display:none;align-items:center;gap:11px;box-shadow:0 6px 20px rgba(13,22,68,.28);z-index:50;}
+  #slate.show{display:flex;}
+  #slate .dot{width:11px;height:11px;border-radius:50%;background:var(--red);animation:blink 1.1s infinite;}
+  #slate .nm{font-weight:700;letter-spacing:.03em;max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  #slate .take{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  .hidden{display:none;}
+  .upnote{margin-top:26px;font-size:15px;color:var(--muted);}
+  .formlink{display:inline-block;background:var(--accent);border:1px solid var(--line);border-radius:8px;
+    padding:8px 12px;font-weight:700;color:var(--navy);}
+  .done{text-align:center;padding:30px 0;}
+  a{color:var(--navy);}
+</style>
+</head>
+<body>
+
+<!-- corner recording slate (shows during the recorded portion) -->
+<div id="slate"><span class="dot"></span><span class="nm" id="slateName"></span><span class="take">Take 1</span></div>
+
+<div class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section id="intro">
+    <div class="wordmark">Diata Health</div>
+    <h1>Patient Coordinator — Voice Audition</h1>
+    <p class="sub">This takes about 6 minutes. We want to hear your real, in-the-moment voice — so please don't write your answers out in advance.</p>
+
+    <div class="card">
+      <div class="step"><div class="num">1</div><div>
+        <p class="lead">Start your screen + camera recording now.</p>
+        <p>Use Loom (free at <b>loom.com</b>). Choose <b>"Screen + Cam,"</b> and share <b>this page</b> as your screen so the countdown timer and your name slate are visible in the recording.</p>
+      </div></div>
+      <div class="step"><div class="num">2</div><div>
+        <p class="lead">Enter your name and reveal your questions.</p>
+        <p>The moment you click, a <b>6-minute countdown begins</b> and your name appears in the corner as <b>"Take 1."</b> The questions are hidden until then — on purpose. Answer each one <b>out loud</b>, in order.</p>
+      </div></div>
+      <div class="step"><div class="num">3</div><div>
+        <p class="lead">When the timer ends, stop recording and upload.</p>
+        <p>Download your Loom file and upload it on our submission form (link appears at the end). One continuous take, no edits.</p>
+      </div></div>
+    </div>
+
+    <div class="warn">
+      <b>Please don't script your answers.</b> We can tell — and we're not looking for a polished script. We want to hear how you actually sound and think on a real patient call. Relax and be yourself.
+    </div>
+
+    <div class="field">
+      <label for="nameInput">Your full name</label>
+      <input type="text" id="nameInput" placeholder="e.g. Maria Santos" autocomplete="off">
+    </div>
+
+    <label class="check">
+      <input type="checkbox" id="confirmRec">
+      <span>I've started my Loom recording (Screen + Cam) and I'm sharing this page so the timer and my name show.</span>
+    </label>
+
+    <button class="btn" id="startBtn" disabled>Reveal My Questions &amp; Start the Timer</button>
+  </section>
+
+  <!-- ============ QUESTIONS ============ -->
+  <section id="quiz" class="hidden">
+    <div id="timerBar">
+      <div id="timer">6:00</div>
+      <div id="timerLabel">Keep this timer &amp; your name slate visible in your recording</div>
+    </div>
+    <p class="sub">Answer each question out loud, in order. Take your time, but keep moving.</p>
+    <div id="questions"></div>
+    <p class="upnote">When the timer hits zero, finish your sentence, stop your Loom, download the file, and upload it here:<br><br>
+    <span class="formlink">[ PASTE YOUR GOOGLE FORM LINK HERE ]</span></p>
+  </section>
+
+  <!-- ============ TIME-UP ============ -->
+  <section id="timeup" class="hidden">
+    <div class="done">
+      <h2>Time's up — nicely done! ⏱️</h2>
+      <p>Please stop your Loom recording now, download the file, and upload it here:</p>
+      <p><span class="formlink">[ PASTE YOUR GOOGLE FORM LINK HERE ]</span></p>
+      <p class="upnote">Thank you for auditioning with Diata Health. We review every submission personally.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  var TOTAL_SECONDS = 360; // 6 minutes
+
+  // Questions are base64-encoded so they don't appear in plain page source.
+  var Q = [
+    "V2FybS11cCDigJQgaW4gT05FIHNlbnRlbmNlOiB3aGVyZSBhcmUgeW91IHJpZ2h0IG5vdywgYW5kIHdoYXQgd2FzIHRoZSBsYXN0IHRoaW5nIHlvdSBhdGU/IChKdXN0IHNheSBpdCBvdXQgbG91ZC4gVGhpcyBoZWxwcyB1cyBoZWFyIHlvdXIgbmF0dXJhbCwgdW5zY3JpcHRlZCB2b2ljZS4p",
+    "VGVsbCB1cyBhYm91dCB5b3Vyc2VsZiBhbmQgeW91ciBleHBlcmllbmNlIG1ha2luZyBwYXRpZW50IG9yIGN1c3RvbWVyIHBob25lIGNhbGxzLiAoQWJvdXQgNDUgc2Vjb25kcy4p",
+    "VGVsbCB1cyBhYm91dCBhIHJlYWwgdGltZSBhIHBhdGllbnQgb3IgY3VzdG9tZXIgd2FzIHVwc2V0LCB3b3JyaWVkLCBvciBza2VwdGljYWwg4oCUIGFuZCB0aGUgZXhhY3Qgd29yZHMgeW91IHVzZWQgdG8gdHVybiBpdCBhcm91bmQu",
+    "U2VsbCB1cyBvbiB5b3VyIGZhdm9yaXRlIHJlc3RhdXJhbnQsIHByb2R1Y3QsIG9yIHBsYWNlIOKAlCBhbnl0aGluZyB5b3UgbG92ZSDigJQgaW4gNjAgc2Vjb25kcy4gTWFrZSB1cyB3YW50IGl0Lg==",
+    "Tm93IGltYWdpbmUgeW91IGFyZSBvbiBhIGNhbGwgd2l0aCBhIHBhdGllbnQuIFNoZSBzYXlzOiAiVGhpcyBpcyB0b28gZXhwZW5zaXZlIOKAlCBteSByZWd1bGFyIGRvY3RvciBjYW4ganVzdCBwcmVzY3JpYmUgdGhlIHdlaWdodC1sb3NzIG1lZGljYXRpb24gZm9yIG1lLiIgUmVzcG9uZCB0byBoZXIsIG91dCBsb3VkLCBleGFjdGx5IGFzIHlvdSB3b3VsZCBvbiB0aGUgcGhvbmUu"
+  ];
+
+  var nameInput = document.getElementById('nameInput');
+  var cb = document.getElementById('confirmRec');
+  var startBtn = document.getElementById('startBtn');
+
+  function refresh(){ startBtn.disabled = !(cb.checked && nameInput.value.trim().length >= 2); }
+  nameInput.addEventListener('input', refresh);
+  cb.addEventListener('change', refresh);
+
+  function decode(b){ try { return decodeURIComponent(escape(window.atob(b))); } catch(e){ return window.atob(b); } }
+
+  startBtn.addEventListener('click', function(){
+    var box = document.getElementById('questions');
+    box.innerHTML = Q.map(function(b,i){
+      return '<div class="q"><b>Question '+(i+1)+'.</b> '+decode(b)+'</div>';
+    }).join('');
+    // show name slate
+    document.getElementById('slateName').textContent = nameInput.value.trim();
+    document.getElementById('slate').classList.add('show');
+    // swap views
+    document.getElementById('intro').classList.add('hidden');
+    document.getElementById('quiz').classList.remove('hidden');
+    window.scrollTo(0,0);
+    startTimer();
+  });
+
+  function startTimer(){
+    var t = TOTAL_SECONDS;
+    var el = document.getElementById('timer');
+    function tick(){
+      var m = Math.floor(t/60), s = t%60;
+      el.textContent = m + ':' + (s<10?'0':'') + s;
+      if (t <= 30) el.classList.add('low');
+      if (t <= 0){
+        clearInterval(iv);
+        document.getElementById('quiz').classList.add('hidden');
+        document.getElementById('timeup').classList.remove('hidden');
+        window.scrollTo(0,0);
+        return;
+      }
+      t--;
+    }
+    tick();
+    var iv = setInterval(tick, 1000);
+  }
+</script>
+</body>
+</html>
