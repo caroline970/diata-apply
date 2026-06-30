@@ -94,10 +94,10 @@
       </div></div>
       <div class="step"><div class="num">2</div><div>
         <p class="lead">Enter your name and reveal your questions.</p>
-        <p>The moment you click, a <b>6-minute countdown begins</b> and your name appears in the corner as <b>"Take 1."</b> The questions are hidden until then — on purpose. Answer each one <b>out loud</b>, in order.</p>
+        <p>The moment you click, a <b>timer starts counting up</b> and your name appears in the corner as <b>"Take 1."</b> The questions are hidden until then — on purpose. Answer each one <b>out loud</b>, in order, and take your time — about 6 minutes total is perfect.</p>
       </div></div>
       <div class="step"><div class="num">3</div><div>
-        <p class="lead">When the timer ends, stop recording and upload.</p>
+        <p class="lead">When you've finished all the questions, stop recording and upload.</p>
         <p>Download your Loom file and upload it on our submission form (link appears at the end). One continuous take, no edits.</p>
       </div></div>
     </div>
@@ -122,12 +122,12 @@
   <!-- ============ QUESTIONS ============ -->
   <section id="quiz" class="hidden">
     <div id="timerBar">
-      <div id="timer">6:00</div>
-      <div id="timerLabel">Keep this timer &amp; your name slate visible in your recording</div>
+      <div id="timer">0:00</div>
+      <div id="timerLabel">Keep this timer &amp; your name visible in your recording — take your time</div>
     </div>
     <p class="sub">Answer each question out loud, in order. Take your time, but keep moving.</p>
     <div id="questions"></div>
-    <p class="upnote">When the timer hits zero, finish your sentence, stop your Loom, download the file, and upload it here:<br><br>
+    <p class="upnote">When you've answered all the questions, stop your Loom, download the file, and upload it here:<br><br>
     <a class="formlink" href="https://forms.gle/omR8cBv4SPyRTfQn8" target="_blank" rel="noopener">Upload your recording →</a></p>
   </section>
 
@@ -181,23 +181,15 @@
   });
 
   function startTimer(){
-    var t = TOTAL_SECONDS;
+    var t = 0;
     var el = document.getElementById('timer');
     function tick(){
       var m = Math.floor(t/60), s = t%60;
       el.textContent = m + ':' + (s<10?'0':'') + s;
-      if (t <= 30) el.classList.add('low');
-      if (t <= 0){
-        clearInterval(iv);
-        document.getElementById('quiz').classList.add('hidden');
-        document.getElementById('timeup').classList.remove('hidden');
-        window.scrollTo(0,0);
-        return;
-      }
-      t--;
+      t++;
     }
     tick();
-    var iv = setInterval(tick, 1000);
+    setInterval(tick, 1000);
   }
 </script>
 </body>
