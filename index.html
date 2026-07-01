@@ -7,13 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#20307f;
-    --accent:#d4e5f6;
-    --ink:#0b0b0b;
-    --muted:#5d6677;
-    --line:#e3e8f0;
-    --red:#d02e2e;
-    --bg:#ffffff;
+    --navy:#20307f; --accent:#d4e5f6; --ink:#0b0b0b; --muted:#5d6677;
+    --line:#e3e8f0; --red:#d02e2e; --green:#1f7a44; --bg:#ffffff;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
@@ -29,35 +24,29 @@
   .step{display:flex;gap:15px;margin:0 0 18px;}
   .step:last-child{margin-bottom:0;}
   .num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;
-    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;
-    font-family:'Lora',serif;}
-  .step p{margin:2px 0;}
-  .step .lead{font-weight:700;color:var(--navy);}
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;font-family:'Lora',serif;}
+  .step p{margin:2px 0;} .step .lead{font-weight:700;color:var(--navy);}
   .warn{border:1px solid var(--red);border-left:5px solid var(--red);border-radius:12px;
     padding:15px 18px;font-size:15.5px;margin:20px 0;color:#7a1414;background:#fef6f6;}
-  .field{margin:24px 0 6px;}
+  .field{margin:18px 0 6px;}
   .field label{display:block;font-weight:700;color:var(--navy);margin-bottom:8px;font-size:15px;}
-  .field input[type=text]{width:100%;padding:15px 16px;font-size:17px;font-family:'Lora',serif;
-    border:1.5px solid var(--line);border-radius:10px;outline:none;}
-  .field input[type=text]:focus{border-color:var(--navy);}
+  .field input[type=text],.field input[type=email]{width:100%;padding:14px 16px;font-size:17px;
+    font-family:'Lora',serif;border:1.5px solid var(--line);border-radius:10px;outline:none;}
+  .field input:focus{border-color:var(--navy);}
   .btn{display:block;background:var(--navy);color:#fff;border:none;border-radius:11px;
     padding:17px 26px;font-size:17px;font-weight:700;font-family:'Lora',serif;cursor:pointer;
     width:100%;text-align:center;transition:opacity .15s;margin-top:18px;}
-  .btn:hover{opacity:.92;}
-  .btn:disabled{background:#aeb6c9;cursor:not-allowed;}
+  .btn:hover{opacity:.92;} .btn:disabled{background:#aeb6c9;cursor:not-allowed;}
   .check{display:flex;align-items:flex-start;gap:11px;margin:18px 0 4px;font-size:15px;}
   .check input{margin-top:5px;transform:scale(1.3);accent-color:var(--navy);}
-  /* timer */
   #timerBar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);
     padding:16px 0 14px;margin:-38px -24px 26px;text-align:center;z-index:10;}
   #timer{font-family:'Libre Baskerville',serif;font-size:44px;font-weight:700;color:var(--navy);
     font-variant-numeric:tabular-nums;letter-spacing:.02em;}
-  #timer.low{color:var(--red);}
   #timerLabel{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
   .q{background:var(--accent);border-left:5px solid var(--navy);border-radius:10px;
     padding:17px 19px;margin:0 0 14px;font-size:17px;}
   .q b{font-family:'Libre Baskerville',serif;color:var(--navy);}
-  /* corner recording slate */
   #slate{position:fixed;bottom:18px;right:18px;background:var(--navy);color:#fff;
     border-radius:11px;padding:11px 15px;font-family:'Lora',serif;font-size:14.5px;
     display:none;align-items:center;gap:11px;box-shadow:0 6px 20px rgba(13,22,68,.28);z-index:50;}
@@ -67,16 +56,19 @@
   #slate .take{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
   .hidden{display:none;}
-  .upnote{margin-top:26px;font-size:15px;color:var(--muted);}
-  .formlink{display:inline-block;background:var(--accent);border:1px solid var(--line);border-radius:8px;
-    padding:8px 12px;font-weight:700;color:var(--navy);}
-  .done{text-align:center;padding:30px 0;}
+  .submitbox{background:var(--accent);border-radius:14px;padding:22px;margin-top:26px;}
+  .submitbox label{display:block;font-weight:700;color:var(--navy);margin-bottom:8px;font-size:16px;}
+  .submitbox input{width:100%;padding:14px 16px;font-size:17px;font-family:'Lora',serif;
+    border:1.5px solid #c3d3ea;border-radius:10px;outline:none;}
+  .submitbox input:focus{border-color:var(--navy);}
+  .hinttext{font-size:13px;color:var(--muted);margin-top:8px;}
+  .done{text-align:center;padding:44px 0;}
+  .done .big{font-size:52px;}
   a{color:var(--navy);}
 </style>
 </head>
 <body>
 
-<!-- corner recording slate (shows during the recorded portion) -->
 <div id="slate"><span class="dot"></span><span class="nm" id="slateName"></span><span class="take">Take 1</span></div>
 
 <div class="wrap">
@@ -89,16 +81,16 @@
 
     <div class="card">
       <div class="step"><div class="num">1</div><div>
-        <p class="lead">Start your screen + camera recording now.</p>
-        <p>Use Loom (free at <b>loom.com</b>). Choose <b>"Screen + Cam,"</b> and share <b>this page</b> as your screen so the countdown timer and your name slate are visible in the recording.</p>
+        <p class="lead">Fill in your details below.</p>
+        <p>We'll capture everything up front so you're free to just talk when you record.</p>
       </div></div>
       <div class="step"><div class="num">2</div><div>
-        <p class="lead">Enter your name and reveal your questions.</p>
-        <p>The moment you click, a <b>timer starts counting up</b> and your name appears in the corner as <b>"Take 1."</b> The questions are hidden until then — on purpose. Answer each one <b>out loud</b>, in order, and take your time — about 6 minutes total is perfect.</p>
+        <p class="lead">Start your screen + camera recording.</p>
+        <p>Use Loom (free at <b>loom.com</b>). Choose <b>"Screen + Cam,"</b> share <b>this page</b>, then click the button to reveal your questions — a timer starts counting up and your name shows in the corner as "Take 1."</p>
       </div></div>
       <div class="step"><div class="num">3</div><div>
-        <p class="lead">When you've finished all the questions, stop recording and upload.</p>
-        <p>Download your Loom file and upload it on our submission form (link appears at the end). One continuous take, no edits.</p>
+        <p class="lead">Paste your Loom link &amp; submit — that's it.</p>
+        <p>When you finish talking, copy your Loom share link, paste it at the bottom, and hit Submit. No files, no uploads.</p>
       </div></div>
     </div>
 
@@ -106,17 +98,17 @@
       <b>Please don't script your answers.</b> We can tell — and we're not looking for a polished script. We want to hear how you actually sound and think on a real patient call. Relax and be yourself.
     </div>
 
-    <div class="field">
-      <label for="nameInput">Your full name</label>
-      <input type="text" id="nameInput" placeholder="e.g. Maria Santos" autocomplete="off">
-    </div>
+    <div class="field"><label for="f_name">Full name</label><input type="text" id="f_name" placeholder="e.g. Maria Santos" autocomplete="off"></div>
+    <div class="field"><label for="f_email">Email</label><input type="email" id="f_email" placeholder="you@email.com" autocomplete="off"></div>
+    <div class="field"><label for="f_oj">OnlineJobs profile link</label><input type="text" id="f_oj" placeholder="https://www.onlinejobs.ph/jobseekers/profile/..." autocomplete="off"></div>
+    <div class="field"><label for="f_rate">Desired hourly rate (USD)</label><input type="text" id="f_rate" placeholder="e.g. $8" autocomplete="off"></div>
 
     <label class="check">
       <input type="checkbox" id="confirmRec">
       <span>I've started my Loom recording (Screen + Cam) and I'm sharing this page so the timer and my name show.</span>
     </label>
 
-    <button class="btn" id="startBtn" disabled>Reveal My Questions &amp; Start the Timer</button>
+    <button class="btn" id="startBtn" disabled>Reveal My Questions &amp; Start</button>
   </section>
 
   <!-- ============ QUESTIONS ============ -->
@@ -127,26 +119,39 @@
     </div>
     <p class="sub">Answer each question out loud, in order. Take your time, but keep moving.</p>
     <div id="questions"></div>
-    <p class="upnote">When you've answered all the questions, stop your Loom, download the file, and upload it here:<br><br>
-    <a class="formlink" href="https://forms.gle/omR8cBv4SPyRTfQn8" target="_blank" rel="noopener">Upload your recording →</a></p>
+
+    <div class="submitbox">
+      <label for="f_loom">Finished talking? Paste your Loom share link here:</label>
+      <input type="text" id="f_loom" placeholder="https://www.loom.com/share/..." autocomplete="off" oninput="refreshSubmit()">
+      <button class="btn" id="submitBtn" onclick="submitAudition()" disabled>Submit my audition</button>
+      <div class="hinttext">In Loom, click <b>Copy link</b> and paste it above. Make sure your video is set so anyone with the link can view it.</div>
+    </div>
   </section>
 
-  <!-- ============ TIME-UP ============ -->
-  <section id="timeup" class="hidden">
+  <!-- ============ SUCCESS ============ -->
+  <section id="done" class="hidden">
     <div class="done">
-      <h2>Time's up — nicely done! ⏱️</h2>
-      <p>Please stop your Loom recording now, download the file, and upload it here:</p>
-      <p><a class="formlink" href="https://forms.gle/omR8cBv4SPyRTfQn8" target="_blank" rel="noopener">Upload your recording →</a></p>
-      <p class="upnote">Thank you for auditioning with Diata Health. We review every submission personally.</p>
+      <div class="big">✓</div>
+      <h2>Submitted — thank you!</h2>
+      <p>We've received your audition and we review every single one personally.<br>We can't wait to hear your voice. 💙</p>
     </div>
   </section>
 
 </div>
 
-<script>
-  var TOTAL_SECONDS = 360; // 6 minutes
+<iframe name="gform_target" style="display:none" title="submit"></iframe>
 
-  // Questions are base64-encoded so they don't appear in plain page source.
+<script>
+  var FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSdghu5r7etlPhBA63vQ93eGVQisdYoAGXh_g5Ezy2di4WzcPA/formResponse";
+  var ENTRY = {
+    name:  "entry.1614758249",
+    email: "entry.1217149713",
+    oj:    "entry.922994474",
+    loom:  "entry.1093301743",
+    rate:  "entry.1260072234"
+  };
+
+  // Base64-encoded questions so they don't show in plain page source.
   var Q = [
     "V2FybS11cCDigJQgaW4gT05FIHNlbnRlbmNlOiB3aGVyZSBhcmUgeW91IHJpZ2h0IG5vdywgYW5kIHdoYXQgd2FzIHRoZSBsYXN0IHRoaW5nIHlvdSBhdGU/IChKdXN0IHNheSBpdCBvdXQgbG91ZC4gVGhpcyBoZWxwcyB1cyBoZWFyIHlvdXIgbmF0dXJhbCwgdW5zY3JpcHRlZCB2b2ljZS4p",
     "VGVsbCB1cyBhYm91dCB5b3Vyc2VsZiBhbmQgeW91ciBleHBlcmllbmNlIG1ha2luZyBwYXRpZW50IG9yIGN1c3RvbWVyIHBob25lIGNhbGxzLiAoQWJvdXQgNDUgc2Vjb25kcy4p",
@@ -155,25 +160,25 @@
     "Tm93IGltYWdpbmUgeW91IGFyZSBvbiBhIGNhbGwgd2l0aCBhIHBhdGllbnQuIFNoZSBzYXlzOiAiVGhpcyBpcyB0b28gZXhwZW5zaXZlIOKAlCBteSByZWd1bGFyIGRvY3RvciBjYW4ganVzdCBwcmVzY3JpYmUgdGhlIHdlaWdodC1sb3NzIG1lZGljYXRpb24gZm9yIG1lLiIgUmVzcG9uZCB0byBoZXIsIG91dCBsb3VkLCBleGFjdGx5IGFzIHlvdSB3b3VsZCBvbiB0aGUgcGhvbmUu"
   ];
 
-  var nameInput = document.getElementById('nameInput');
-  var cb = document.getElementById('confirmRec');
-  var startBtn = document.getElementById('startBtn');
+  var f_name=document.getElementById('f_name'), f_email=document.getElementById('f_email'),
+      f_oj=document.getElementById('f_oj'), f_rate=document.getElementById('f_rate'),
+      cb=document.getElementById('confirmRec'), startBtn=document.getElementById('startBtn');
 
-  function refresh(){ startBtn.disabled = !(cb.checked && nameInput.value.trim().length >= 2); }
-  nameInput.addEventListener('input', refresh);
-  cb.addEventListener('change', refresh);
+  function ok(el,min){ return el.value.trim().length>=(min||1); }
+  function refresh(){
+    startBtn.disabled = !(ok(f_name,2) && f_email.value.indexOf('@')>0 && ok(f_oj,4) && ok(f_rate,1) && cb.checked);
+  }
+  [f_name,f_email,f_oj,f_rate].forEach(function(el){ el.addEventListener('input',refresh); });
+  cb.addEventListener('change',refresh);
 
   function decode(b){ try { return decodeURIComponent(escape(window.atob(b))); } catch(e){ return window.atob(b); } }
 
   startBtn.addEventListener('click', function(){
-    var box = document.getElementById('questions');
-    box.innerHTML = Q.map(function(b,i){
+    document.getElementById('questions').innerHTML = Q.map(function(b,i){
       return '<div class="q"><b>Question '+(i+1)+'.</b> '+decode(b)+'</div>';
     }).join('');
-    // show name slate
-    document.getElementById('slateName').textContent = nameInput.value.trim();
+    document.getElementById('slateName').textContent = f_name.value.trim();
     document.getElementById('slate').classList.add('show');
-    // swap views
     document.getElementById('intro').classList.add('hidden');
     document.getElementById('quiz').classList.remove('hidden');
     window.scrollTo(0,0);
@@ -181,15 +186,33 @@
   });
 
   function startTimer(){
-    var t = 0;
-    var el = document.getElementById('timer');
-    function tick(){
-      var m = Math.floor(t/60), s = t%60;
-      el.textContent = m + ':' + (s<10?'0':'') + s;
-      t++;
-    }
-    tick();
-    setInterval(tick, 1000);
+    var t=0, el=document.getElementById('timer');
+    function tick(){ var m=Math.floor(t/60), s=t%60; el.textContent=m+':'+(s<10?'0':'')+s; t++; }
+    tick(); setInterval(tick,1000);
+  }
+
+  function refreshSubmit(){
+    document.getElementById('submitBtn').disabled = document.getElementById('f_loom').value.trim().length < 8;
+  }
+
+  function submitAudition(){
+    var loom=document.getElementById('f_loom').value.trim();
+    if(loom.length<8){ alert('Please paste your Loom link first.'); return; }
+    var vals={};
+    vals[ENTRY.name]=f_name.value.trim();
+    vals[ENTRY.email]=f_email.value.trim();
+    vals[ENTRY.oj]=f_oj.value.trim();
+    vals[ENTRY.loom]=loom;
+    vals[ENTRY.rate]=f_rate.value.trim();
+    var form=document.createElement('form');
+    form.action=FORM_ACTION; form.method='POST'; form.target='gform_target';
+    for(var k in vals){ var inp=document.createElement('input'); inp.type='hidden'; inp.name=k; inp.value=vals[k]; form.appendChild(inp); }
+    document.body.appendChild(form);
+    form.submit();
+    document.getElementById('quiz').classList.add('hidden');
+    document.getElementById('slate').classList.remove('show');
+    document.getElementById('done').classList.remove('hidden');
+    window.scrollTo(0,0);
   }
 </script>
 </body>
