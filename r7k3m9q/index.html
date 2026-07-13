@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Diata — Phone Auditions</title>
+<style>
+  :root{
+    --bg:#ffffff; --card:#ffffff; --ink:#0b0b0b; --muted:#5d6677;
+    --navy:#20307f; --line:#e6eaf2; --green:#1f7a44; --amber:#9a6b12; --red:#c23b3b;
+    --accent:#eef1fb;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0e1220; --card:#161b2c; --ink:#eef1f8; --muted:#9aa3ba;
+      --navy:#a9bdf0; --line:#28304a; --green:#63c48c; --amber:#e0b667; --red:#e97b7b; --accent:#1b2138; }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.5;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:640px;margin:0 auto;padding:0 15px 72px;}
+  .topbar{position:sticky;top:0;z-index:20;background:var(--bg);
+    border-bottom:1px solid var(--line);padding:12px 2px 10px;margin-bottom:6px;}
+  .brand{font-family:Georgia,serif;font-weight:700;font-size:12px;text-transform:uppercase;
+    color:var(--navy);letter-spacing:.18em;}
+  h1{font-family:Georgia,serif;font-weight:700;font-size:21px;line-height:1.15;
+    margin:5px 0 8px;color:var(--ink);}
+  .tallyrow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .chip{font-size:12.5px;font-weight:700;padding:3px 10px;border-radius:20px;
+    font-variant-numeric:tabular-nums;}
+  .chip.y{background:rgba(31,122,68,.13);color:var(--green);}
+  .chip.m{background:rgba(154,107,18,.15);color:var(--amber);}
+  .chip.n{background:rgba(194,59,59,.13);color:var(--red);}
+  .chip.l{background:var(--accent);color:var(--muted);}
+  .send{margin-left:auto;font-family:system-ui;cursor:pointer;border:none;
+    background:var(--navy);color:#fff;font-weight:700;font-size:13px;padding:8px 14px;border-radius:9px;}
+  .send:active{opacity:.8;}
+  .tier{font-family:Georgia,serif;font-weight:700;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.06em;margin:22px 2px 9px;
+    padding-bottom:5px;border-bottom:1.5px solid var(--line);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:13px 14px 11px;margin-bottom:11px;transition:border-color .12s,opacity .12s;}
+  .card.d-yes{border-color:var(--green);border-width:2px;}
+  .card.d-maybe{border-color:var(--amber);}
+  .card.d-no{opacity:.5;}
+  .card.dead{opacity:.5;}
+  .row1{display:flex;align-items:baseline;gap:9px;}
+  .name{font-family:Georgia,serif;font-weight:700;font-size:16.5px;color:var(--ink);}
+  .rate{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--green);
+    font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .why{font-size:13px;color:var(--muted);margin:6px 0 9px;}
+  .why b{color:var(--ink);}
+  .flag{color:var(--amber);font-weight:700;}
+  .actions{display:flex;align-items:center;gap:7px;}
+  .listen{text-decoration:none;font-size:13.5px;font-weight:700;color:var(--navy);
+    border:1.5px solid var(--navy);border-radius:9px;padding:7px 12px;white-space:nowrap;}
+  .listen:active{background:var(--accent);}
+  .listen2{font-size:12px;color:var(--muted);text-decoration:none;font-weight:600;}
+  .verdict{margin-left:auto;display:flex;gap:5px;}
+  .vb{font-family:system-ui;cursor:pointer;border:1.5px solid var(--line);background:var(--card);
+    color:var(--ink);font-weight:700;font-size:15px;width:42px;height:38px;border-radius:9px;}
+  .vb.yes.on{background:var(--green);border-color:var(--green);color:#fff;}
+  .vb.maybe.on{background:var(--amber);border-color:var(--amber);color:#fff;}
+  .vb.no.on{background:var(--red);border-color:var(--red);color:#fff;}
+  textarea.note{width:100%;margin-top:9px;min-height:34px;padding:8px 10px;
+    font-family:system-ui;font-size:13px;background:var(--bg);color:var(--ink);
+    border:1.5px solid var(--line);border-radius:9px;resize:vertical;outline:none;}
+  textarea.note:focus{border-color:var(--navy);}
+  .src{font-size:11px;color:var(--muted);background:var(--accent);
+    padding:2px 7px;border-radius:6px;font-weight:600;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">Diata Health</div>
+    <h1>Phone Coordinator — Auditions</h1>
+    <div class="tallyrow" id="tally"></div>
+  </div>
+  <p style="font-size:12.5px;color:var(--muted);margin:2px 2px 4px;">Tap <b>▶ Listen</b> to play the audition, then set <b>✓ / ~ / ✕</b> and add a note. Saves on your phone. Hit <b>Send my picks</b> when done and it opens an email to me.</p>
+  <div id="list"></div>
+</div>
+
+<script>
+const SHARE = id => `https://www.loom.com/share/${id}`;
+const TIERS = [
+  {key:"strongyes", label:"★ Strong Yes — listen first"},
+  {key:"yes",       label:"Recommend"},
+  {key:"maybe",     label:"Maybe / backup"},
+  {key:"pending",   label:"Pending — watch manually"},
+  {key:"no",        label:"Pass"},
+];
+const C = [
+  {n:"Christopher Buffard", rate:"—", src:"Indeed · Brazil", tier:"strongyes", loom:"4120d7f67ee34a60bf3496a46552d0be", why:"Curitiba, Brazil; flexible for US-Eastern. Mature, professional; EN/FR/PT; IT help-desk + appointment-setter (Zendesk/HubSpot)."},
+  {n:"Cornelio B. Manzano III, MD", rate:"$10", src:"OnlineJobs", tier:"strongyes", loom:"25639f84576c41d3a58e465aff73ad0e", why:"MD who <b>already works weight-loss / GLP-1 clinics</b> — free-consult conversions & objections. Most on-point; calm English."},
+  {n:"Jhon Christian Las", rate:"$8", src:"OnlineJobs", tier:"strongyes", loom:"33a72aa541154057b4eb4ad14ce01771", why:"RN (5 yr) + 5 yr BPO + patient-care coordinator (Oregon surgery center). Strong price-objection script; fluent."},
+  {n:"Abegail Ang", rate:"$10", src:"OnlineJobs", tier:"strongyes", loom:"402c1fa7fa3345d9a8de879e7f666f0c", why:"9 yrs client-facing (CS manager, onboarding, BDR). Polished, articulate, confident English."},
+
+  {n:"Loren Mae Flores", rate:"$10", src:"OnlineJobs", tier:"yes", loom:"56b09583b5a141daacc61f57dd945650", why:"★ <b>The one you flagged (interview Wed 9:10a)</b> — home office, husband + seven rescued dogs. VA 4 yrs — inbound calls, booking. Relaxed, natural, warm English."},
+  {n:"Gemma Macalua", rate:"$10", src:"OnlineJobs", tier:"yes", loom:"a0241b9735c443f8bd2b7b87713b7977", why:"5+ yrs US healthcare call center — prior auth, appeals, scheduling. Very relevant; English slightly less crisp."},
+  {n:"Bethyll De La Cura", rate:"$10", src:"OnlineJobs", tier:"yes", loom:"2498f6f8d6f84f738ed30eac26001ec3", why:"RN since 2009 (PH, Singapore, Saudi). Reassuring, warm phone manner for anxious patients."},
+  {n:"Goodness Ughachukwu", rate:"$8", src:"Torre", tier:"yes", loom:"033651978f7d4146886fd6ec7dedaf2a", why:"MD (Nigeria) now patient-care coordinator for US/UK practices; telemedicine. Fluent, slight accent."},
+  {n:"Jobelyn Faulmino", rate:"$7", src:"OnlineJobs", tier:"yes", loom:"4c381d3a3b2545d48101145d389f317c", why:"16 yrs phone support (CS, tech, patient-care, verification/payments). Comfortable w/ US clients — strong value at $7."},
+  {n:"Dave Leonardo", rate:"$8", src:"OnlineJobs", tier:"yes", loom:"315810280a46410fb023db22614355ff", why:"Remote nurse — phone + video intake (Georgia pediatric). Process-oriented, clear English."},
+  {n:"Maryam Blanco", rate:"$6–10", src:"OnlineJobs", tier:"yes", loom:"354eea4fc37249dca237a5bbe2af1c2e", why:"RN, 3+ yrs healthcare admin & patient care; flexible on rate. Calms skeptical patients well."},
+  {n:"Ma. Liwaya Rinabeth Lobiano", rate:"$8", src:"OnlineJobs", tier:"yes", loom:"a508a1d8338c4674bb2b9fe4c6fd45a0", why:"6 yrs virtual medical receptionist, 8 hrs/day patient calls. Warm, reassuring."},
+  {n:"Angela Flordeliz", rate:"$7", src:"OnlineJobs", tier:"yes", loom:"69521afe1a224f6fb55b355b6a7cb2ed", why:"US-insurance provider advocate / escalation — eligibility, benefits, denied claims. Great for billing Qs; value at $7."},
+  {n:"Justine Mae Amon", rate:"$10", src:"OnlineJobs", tier:"yes", loom:"21371508c5434160bc126f8602cfe0d0", why:"Fluent, natural English; diverse client-facing. Less healthcare-specific but a genuinely warm phone presence."},
+  {n:"Nyakno Peter", rate:"$6", src:"No profile link", tier:"yes", loom:"400969ae0abc4adbbc09b7381bbd5fb6", why:"RN + medical VA, 4 yrs patient coordination, scheduling, EMR (SimplePractice, DrChrono). Lowest rate."},
+
+  {n:"Julio M Cordova Jr", rate:"$7–8", src:"OnlineJobs · 3 takes", tier:"maybe", loom:"4b5223e995664731b2325632e7f0fec1", loom2:"5dd830b760b147b68992fd037c1cdb65", why:"Licensed psychometrician; patient-care coordinator (Arizona counseling clinic). Fluent — but submitted 3× (instruction-following?)."},
+  {n:"Novisse Anne Oding", rate:"$8", src:"No profile link", tier:"maybe", loom:"1d69f4737c7c4b779fa6d1a42cbeda36", why:"8–10 yrs call-center / patient & customer phone; confident English. Experienced but generic."},
+  {n:"Ma. Imelda Balberan", rate:"$8", src:"OnlineJobs", tier:"maybe", loom:"4ef66d01d1c7406e8f0005df2b83f72e", why:"CS at Teleperformance + sales/social manager. No healthcare yet; verify."},
+  {n:"Ner Porras", rate:"$9", src:"No profile", tier:"maybe", loom:"9301d48819e74ccbbcd9c4197157c3d9", why:"~2 yrs, remote scheduler at Acclaim Dental (Virginia). Lighter experience."},
+  {n:"Cecilio Sabroso Jr", rate:"$10", src:"OnlineJobs", tier:"maybe", loom:"1d58c9c06ed548148857ba25a8743847", why:"Fluent but answers stayed generic ('world-class service'); no healthcare specifics; $10 top of band."},
+  {n:"Charie Jean Temones", rate:"$10", src:"OnlineJobs", tier:"maybe", loom:"1ebf12456e4e43feb28039769d5d8e79", why:"Fluent, friendly — but example was a tour-company driver (non-medical); $10 top of band."},
+  {n:"Michael Peralta", rate:"$7", src:"No profile", tier:"maybe", loom:"c8d135e9d5924407993a128b943c84d7", why:"Freelance medical interpreter — knows terminology & empathy, but interpreting isn't phone-coordination."},
+  {n:"Juan Jose Hernandez Lira", rate:"$9", src:"LatAm · no profile", tier:"maybe", loom:"19969760ba3444aea535ac54978eb0f7", why:"US-insurance CS (Medicare, Rx plans). English understandable but less polished than the top group."},
+
+  {n:"Alejandra Borbolla Sarachaga", rate:"$15", src:"LatAm · no profile", tier:"pending", loom:"b4896fa8cafe43429d4f5094c0f91b2f", why:"Highest ask at $15/hr. <span class='flag'>No auto-transcript</span> — watch to judge the voice."},
+  {n:"Monique Belardo", rate:"$8", src:"OnlineJobs", tier:"pending", loom:"e6719096ec7a4459a83d34265b84c088", why:"<span class='flag'>No transcript generated</span> — watch to judge."},
+  {n:"Pearl Torremocha", rate:"$7", src:"OnlineJobs", tier:"pending", loom:"357ae4f98d8b430b9db4b8e92dbd6f86", dead:true, why:"Profile complete, $7 good value. <span class='flag'>⚠ Loom wouldn't load (3 tries)</span> — may be dead; try, else re-request."},
+  {n:"Andy Ramos", rate:"$8", src:"OnlineJobs", tier:"pending", loom:"3d7cd68eb9b04e5abc46f04c749b18d1", dead:true, why:"<span class='flag'>⚠ Loom wouldn't load</span> — may be dead; try, else re-request."},
+
+  {n:"Milasol S. Buenaventura", rate:"$8", src:"LinkedIn", tier:"no", loom:"e484e1ccccc244b1b88f7a06a852a5da", why:"Strong on paper (10 yr BPO) but <b>recorded in Tagalog</b> — can't verify C1 English for an English-voice role."},
+];
+
+const KEY = "diata-phone-auditions-v2";
+let store = JSON.parse(localStorage.getItem(KEY) || "{}");
+const save = () => localStorage.setItem(KEY, JSON.stringify(store));
+const cid = n => "c-" + n.replace(/[^a-z0-9]/gi,"");
+
+function decide(n, v){
+  store[n] = store[n] || {};
+  store[n].d = (store[n].d === v) ? "" : v;
+  save();
+  const card = document.getElementById(cid(n));
+  card.className = "card" + (store[n].d ? " d-"+store[n].d : "");
+  card.querySelectorAll(".vb").forEach(b => b.classList.remove("on"));
+  if(store[n].d) card.querySelector(".vb."+store[n].d).classList.add("on");
+  tally();
+}
+function setNote(n, val){ store[n] = store[n] || {}; store[n].note = val; save(); }
+
+function tally(){
+  let y=0,m=0,no=0;
+  C.forEach(c => { const d=(store[c.n]||{}).d; if(d==="yes")y++; else if(d==="maybe")m++; else if(d==="no")no++; });
+  document.getElementById("tally").innerHTML =
+    `<span class="chip y">${y} Yes</span>
+     <span class="chip m">${m} Maybe</span>
+     <span class="chip n">${no} No</span>
+     <span class="chip l">${C.length-y-m-no} left</span>
+     <button class="send" onclick="sendPicks()">Send my picks →</button>`;
+}
+function sendPicks(){
+  const line = c => `${c.n} (${c.rate}${c.rate!=="—"?"/hr":""})` + ((store[c.n]||{}).note ? ` — ${store[c.n].note}` : "");
+  const grp = v => C.filter(c => (store[c.n]||{}).d === v).map(line);
+  const y=grp("yes"), m=grp("maybe"), n=grp("no");
+  if(!y.length && !m.length && !n.length){ alert("Set some ✓ / ~ / ✕ first."); return; }
+  let b = "My phone-audition picks:\n\n";
+  if(y.length) b += "YES ("+y.length+"):\n" + y.join("\n") + "\n\n";
+  if(m.length) b += "MAYBE ("+m.length+"):\n" + m.join("\n") + "\n\n";
+  if(n.length) b += "NO ("+n.length+"):\n" + n.join("\n") + "\n";
+  const subject = "Phone auditions — my picks";
+  location.href = `mailto:caroline@diatahealth.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(b)}`;
+}
+
+const list = document.getElementById("list");
+TIERS.forEach(t => {
+  const grp = C.filter(c => c.tier === t.key);
+  if(!grp.length) return;
+  const h = document.createElement("div");
+  h.className = "tier";
+  h.textContent = t.label + "  (" + grp.length + ")";
+  list.appendChild(h);
+  grp.forEach(c => {
+    const st = store[c.n] || {};
+    const card = document.createElement("div");
+    card.className = "card" + (st.d ? " d-"+st.d : "") + (c.dead ? " dead" : "");
+    card.id = cid(c.n);
+    card.innerHTML = `
+      <div class="row1">
+        <span class="name">${c.n}</span>
+        <span class="rate">${c.rate}${c.rate!=="—"?"/hr":""}</span>
+      </div>
+      <div class="why">${c.why}</div>
+      <div class="actions">
+        <a class="listen" href="${SHARE(c.loom)}" target="_blank" rel="noopener">▶ Listen</a>
+        ${c.loom2 ? `<a class="listen2" href="${SHARE(c.loom2)}" target="_blank" rel="noopener">Take 2 ↗</a>` : `<span class="src">${c.src}</span>`}
+        <div class="verdict">
+          <button class="vb yes ${st.d==="yes"?"on":""}" onclick="decide('${c.n.replace(/'/g,"\\'")}','yes')">✓</button>
+          <button class="vb maybe ${st.d==="maybe"?"on":""}" onclick="decide('${c.n.replace(/'/g,"\\'")}','maybe')">~</button>
+          <button class="vb no ${st.d==="no"?"on":""}" onclick="decide('${c.n.replace(/'/g,"\\'")}','no')">✕</button>
+        </div>
+      </div>
+      <textarea class="note" placeholder="Note…" onchange="setNote('${c.n.replace(/'/g,"\\'")}', this.value)">${st.note||""}</textarea>`;
+    list.appendChild(card);
+  });
+});
+tally();
+</script>
+</body>
+</html>
