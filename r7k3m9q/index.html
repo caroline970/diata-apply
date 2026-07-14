@@ -81,6 +81,7 @@
     <div class="brand">Diata Health</div>
     <h1>Phone Coordinator — Auditions, best → last</h1>
     <div class="tallyrow" id="tally"></div>
+    <div id="saved" style="font-size:12px;font-weight:700;margin-top:5px;min-height:15px;opacity:0;transition:opacity .3s;"></div>
   </div>
   <p style="font-size:12.5px;color:var(--muted);margin:2px 2px 4px;">Ranked on polish + clear English + warmth. Go top to bottom: tap <b>▶ Listen</b>, then set <b>✓ / ~ / ✕</b> and add a note. Saves on your phone. <b>Send my picks</b> emails me your list.</p>
   <div id="list"></div>
@@ -123,8 +124,22 @@ const C = [
 ];
 
 const KEY = "diata-phone-auditions-v2";
-let store = JSON.parse(localStorage.getItem(KEY) || "{}");
-const save = () => localStorage.setItem(KEY, JSON.stringify(store));
+let STORAGE_OK = true;
+try { localStorage.setItem("__t","1"); localStorage.removeItem("__t"); } catch(e){ STORAGE_OK = false; }
+let store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e){ store = {}; }
+let flashTimer = null;
+function save(){
+  try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){ STORAGE_OK = false; }
+  const f = document.getElementById("saved");
+  if(f){
+    f.textContent = STORAGE_OK ? "Saved ✓" : "⚠ Not saving — Send picks often";
+    f.style.color = STORAGE_OK ? "var(--green)" : "var(--red)";
+    f.style.opacity = "1";
+    clearTimeout(flashTimer);
+    if(STORAGE_OK) flashTimer = setTimeout(()=>{ f.style.opacity = "0"; }, 1200);
+  }
+}
 const cid = n => "c-" + n.replace(/[^a-z0-9]/gi,"");
 
 function decide(n, v){
@@ -191,11 +206,16 @@ C.forEach((c, i) => {
           <button class="vb no ${st.d==="no"?"on":""}" onclick="decide('${c.n.replace(/'/g,"\\'")}','no')">✕</button>
         </div>
       </div>
-      <textarea class="note" placeholder="Note…" onchange="setNote('${c.n.replace(/'/g,"\\'")}', this.value)">${st.note||""}</textarea>
+      <textarea class="note" placeholder="Note…" oninput="setNote('${c.n.replace(/'/g,"\\'")}', this.value)" onblur="setNote('${c.n.replace(/'/g,"\\'")}', this.value)">${st.note||""}</textarea>
     </div>`;
   list.appendChild(card);
 });
 tally();
+if(!STORAGE_OK){
+  const f = document.getElementById("saved");
+  f.textContent = "⚠ Your browser isn't saving marks (private mode?) — tap Send my picks often so nothing is lost.";
+  f.style.color = "var(--red)"; f.style.opacity = "1";
+}
 </script>
 </body>
 </html>
