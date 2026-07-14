@@ -22,7 +22,7 @@
     -webkit-font-smoothing:antialiased;}
   .wrap{max-width:640px;margin:0 auto;padding:0 15px 72px;}
   .topbar{position:sticky;top:0;z-index:20;background:var(--bg);
-    border-bottom:1px solid var(--line);padding:12px 2px 10px;margin-bottom:6px;}
+    border-bottom:1px solid var(--line);padding:12px 2px 10px;margin-bottom:8px;}
   .brand{font-family:Georgia,serif;font-weight:700;font-size:12px;text-transform:uppercase;
     color:var(--navy);letter-spacing:.18em;}
   h1{font-family:Georgia,serif;font-weight:700;font-size:21px;line-height:1.15;
@@ -37,15 +37,18 @@
   .send{margin-left:auto;font-family:system-ui;cursor:pointer;border:none;
     background:var(--navy);color:#fff;font-weight:700;font-size:13px;padding:8px 14px;border-radius:9px;}
   .send:active{opacity:.8;}
-  .tier{font-family:Georgia,serif;font-weight:700;color:var(--navy);font-size:13px;
-    text-transform:uppercase;letter-spacing:.06em;margin:22px 2px 9px;
+  .divider{font-family:Georgia,serif;font-weight:700;color:var(--amber);font-size:12.5px;
+    text-transform:uppercase;letter-spacing:.05em;margin:20px 2px 10px;
     padding-bottom:5px;border-bottom:1.5px solid var(--line);}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
-    padding:13px 14px 11px;margin-bottom:11px;transition:border-color .12s,opacity .12s;}
+  .card{display:flex;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:13px 14px 11px;margin-bottom:10px;transition:border-color .12s,opacity .12s;}
   .card.d-yes{border-color:var(--green);border-width:2px;}
   .card.d-maybe{border-color:var(--amber);}
   .card.d-no{opacity:.5;}
   .card.dead{opacity:.5;}
+  .rank{flex:0 0 26px;font-family:Georgia,serif;font-weight:700;font-size:15px;
+    color:var(--navy);font-variant-numeric:tabular-nums;padding-top:1px;}
+  .body{flex:1;min-width:0;}
   .row1{display:flex;align-items:baseline;gap:9px;}
   .name{font-family:Georgia,serif;font-weight:700;font-size:16.5px;color:var(--ink);}
   .rate{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--green);
@@ -60,7 +63,7 @@
   .listen2{font-size:12px;color:var(--muted);text-decoration:none;font-weight:600;}
   .verdict{margin-left:auto;display:flex;gap:5px;}
   .vb{font-family:system-ui;cursor:pointer;border:1.5px solid var(--line);background:var(--card);
-    color:var(--ink);font-weight:700;font-size:15px;width:42px;height:38px;border-radius:9px;}
+    color:var(--ink);font-weight:700;font-size:15px;width:40px;height:38px;border-radius:9px;}
   .vb.yes.on{background:var(--green);border-color:var(--green);color:#fff;}
   .vb.maybe.on{background:var(--amber);border-color:var(--amber);color:#fff;}
   .vb.no.on{background:var(--red);border-color:var(--red);color:#fff;}
@@ -76,55 +79,47 @@
 <div class="wrap">
   <div class="topbar">
     <div class="brand">Diata Health</div>
-    <h1>Phone Coordinator — Auditions</h1>
+    <h1>Phone Coordinator — Auditions, best → last</h1>
     <div class="tallyrow" id="tally"></div>
   </div>
-  <p style="font-size:12.5px;color:var(--muted);margin:2px 2px 4px;">Tap <b>▶ Listen</b> to play the audition, then set <b>✓ / ~ / ✕</b> and add a note. Saves on your phone. Hit <b>Send my picks</b> when done and it opens an email to me.</p>
+  <p style="font-size:12.5px;color:var(--muted);margin:2px 2px 4px;">Ranked on polish + clear English + warmth. Go top to bottom: tap <b>▶ Listen</b>, then set <b>✓ / ~ / ✕</b> and add a note. Saves on your phone. <b>Send my picks</b> emails me your list.</p>
   <div id="list"></div>
 </div>
 
 <script>
 const SHARE = id => `https://www.loom.com/share/${id}`;
-const TIERS = [
-  {key:"strongyes", label:"★ Strong Yes — listen first"},
-  {key:"yes",       label:"Recommend"},
-  {key:"maybe",     label:"Maybe / backup"},
-  {key:"pending",   label:"Pending — watch manually"},
-  {key:"no",        label:"Pass"},
-];
+// Ranked best -> last on: polished/clear English + warm/kind + premium feel.
 const C = [
-  {n:"Christopher Buffard", rate:"—", src:"Indeed · Brazil", tier:"strongyes", loom:"4120d7f67ee34a60bf3496a46552d0be", why:"Curitiba, Brazil; flexible for US-Eastern. Mature, professional; EN/FR/PT; IT help-desk + appointment-setter (Zendesk/HubSpot)."},
-  {n:"Cornelio B. Manzano III, MD", rate:"$10", src:"OnlineJobs", tier:"strongyes", loom:"25639f84576c41d3a58e465aff73ad0e", why:"MD who <b>already works weight-loss / GLP-1 clinics</b> — free-consult conversions & objections. Most on-point; calm English."},
-  {n:"Jhon Christian Las", rate:"$8", src:"OnlineJobs", tier:"strongyes", loom:"33a72aa541154057b4eb4ad14ce01771", why:"RN (5 yr) + 5 yr BPO + patient-care coordinator (Oregon surgery center). Strong price-objection script; fluent."},
-  {n:"Abegail Ang", rate:"$10", src:"OnlineJobs", tier:"strongyes", loom:"402c1fa7fa3345d9a8de879e7f666f0c", why:"9 yrs client-facing (CS manager, onboarding, BDR). Polished, articulate, confident English."},
+  {n:"Abegail Ang", rate:"$10", src:"OnlineJobs", loom:"402c1fa7fa3345d9a8de879e7f666f0c", why:"Most polished, articulate, confident English. 9 yrs client-facing (CS manager, onboarding, BDR). Sounds premium."},
+  {n:"Loren Mae Flores", rate:"$10", src:"OnlineJobs", loom:"56b09583b5a141daacc61f57dd945650", why:"★ <b>The one you flagged (interview Wed 9:10a).</b> Warmest, most natural voice — home office, husband + seven rescued dogs. Generalist, not clinical."},
+  {n:"Cornelio B. Manzano III, MD", rate:"$10", src:"OnlineJobs", loom:"25639f84576c41d3a58e465aff73ad0e", why:"Calm, fluent, most on-point: an MD who already works GLP-1 / weight-loss clinics. Premium + understanding."},
+  {n:"Jhon Christian Las", rate:"$8", src:"OnlineJobs", loom:"33a72aa541154057b4eb4ad14ce01771", why:"Fluent and genuinely empathetic ('I understand, and I'm sorry — let me help you'). RN + patient-care coordinator. Great value."},
+  {n:"Justine Mae Amon", rate:"$10", src:"OnlineJobs", loom:"21371508c5434160bc126f8602cfe0d0", why:"Fluent, natural, warm phone presence. Less healthcare, but hits polish + kindness squarely."},
+  {n:"Bethyll De La Cura", rate:"$10", src:"OnlineJobs", loom:"2498f6f8d6f84f738ed30eac26001ec3", why:"Reassuring, warm RN (since 2009); good with anxious patients."},
+  {n:"Christopher Buffard", rate:"—", src:"Indeed · Brazil", loom:"4120d7f67ee34a60bf3496a46552d0be", why:"Mature, professional, multilingual (EN/FR/PT); appointment-setter. Polished — <b>listen to confirm warmth.</b>"},
+  {n:"Ma. Liwaya Rinabeth Lobiano", rate:"$8", src:"OnlineJobs", loom:"a508a1d8338c4674bb2b9fe4c6fd45a0", why:"Warm, reassuring; 6 yrs virtual medical receptionist, 8 hrs/day of patient calls."},
+  {n:"Gemma Macalua", rate:"$10", src:"OnlineJobs", loom:"a0241b9735c443f8bd2b7b87713b7977", why:"Very relevant (5+ yrs US healthcare call center); English a touch less crisp than the top."},
+  {n:"Maryam Blanco", rate:"$6–10", src:"OnlineJobs", loom:"354eea4fc37249dca237a5bbe2af1c2e", why:"RN, calms skeptical patients; flexible on rate."},
+  {n:"Dave Leonardo", rate:"$8", src:"OnlineJobs", loom:"315810280a46410fb023db22614355ff", why:"Clear, process-oriented remote nurse (phone + video intake); warmth moderate."},
+  {n:"Goodness Ughachukwu", rate:"$8", src:"Torre", loom:"033651978f7d4146886fd6ec7dedaf2a", why:"Premium (MD, now patient-care coordinator), but a slight accent vs. the top group."},
+  {n:"Jobelyn Faulmino", rate:"$7", src:"OnlineJobs", loom:"4c381d3a3b2545d48101145d389f317c", why:"Seasoned (16 yrs phone support), US-comfortable, excellent value at $7."},
+  {n:"Angela Flordeliz", rate:"$7", src:"OnlineJobs", loom:"69521afe1a224f6fb55b355b6a7cb2ed", why:"Great for billing questions (US-insurance advocate); more transactional than warm."},
+  {n:"Nyakno Peter", rate:"$6", src:"No profile link", loom:"400969ae0abc4adbbc09b7381bbd5fb6", why:"Relevant RN/VA, lowest rate; less standout on polish. No profile link."},
+  {n:"Novisse Anne Oding", rate:"$8", src:"No profile link", loom:"1d69f4737c7c4b779fa6d1a42cbeda36", why:"Confident but generic; 8–10 yrs call-center / patient phone work."},
+  {n:"Ner Porras", rate:"$9", src:"No profile", loom:"9301d48819e74ccbbcd9c4197157c3d9", why:"Only ~2 yrs (remote dental scheduler). Lighter experience."},
+  {n:"Ma. Imelda Balberan", rate:"$8", src:"OnlineJobs", loom:"4ef66d01d1c7406e8f0005df2b83f72e", why:"CS at Teleperformance + sales; no healthcare yet — verify."},
+  {n:"Julio M Cordova Jr", rate:"$7–8", src:"OnlineJobs · 3 takes", loom:"4b5223e995664731b2325632e7f0fec1", loom2:"5dd830b760b147b68992fd037c1cdb65", why:"Fluent (psychometrician, AZ counseling clinic) — but submitted 3× (follow-instructions flag)."},
+  {n:"Juan Jose Hernandez Lira", rate:"$9", src:"LatAm · no profile", loom:"19969760ba3444aea535ac54978eb0f7", why:"US-insurance CS (Medicare); understandable but less polished English."},
+  {n:"Cecilio Sabroso Jr", rate:"$10", src:"OnlineJobs", loom:"1d58c9c06ed548148857ba25a8743847", why:"Fluent but generic answers ('world-class service'); no healthcare specifics; $10 top of band."},
+  {n:"Charie Jean Temones", rate:"$10", src:"OnlineJobs", loom:"1ebf12456e4e43feb28039769d5d8e79", why:"Fluent, friendly — but example was a tour-company driver (non-medical); $10 top of band."},
+  {n:"Michael Peralta", rate:"$7", src:"No profile", loom:"c8d135e9d5924407993a128b943c84d7", why:"Freelance medical interpreter — knows terminology & empathy, but interpreting isn't phone-coordination."},
 
-  {n:"Loren Mae Flores", rate:"$10", src:"OnlineJobs", tier:"yes", loom:"56b09583b5a141daacc61f57dd945650", why:"★ <b>The one you flagged (interview Wed 9:10a)</b> — home office, husband + seven rescued dogs. VA 4 yrs — inbound calls, booking. Relaxed, natural, warm English."},
-  {n:"Gemma Macalua", rate:"$10", src:"OnlineJobs", tier:"yes", loom:"a0241b9735c443f8bd2b7b87713b7977", why:"5+ yrs US healthcare call center — prior auth, appeals, scheduling. Very relevant; English slightly less crisp."},
-  {n:"Bethyll De La Cura", rate:"$10", src:"OnlineJobs", tier:"yes", loom:"2498f6f8d6f84f738ed30eac26001ec3", why:"RN since 2009 (PH, Singapore, Saudi). Reassuring, warm phone manner for anxious patients."},
-  {n:"Goodness Ughachukwu", rate:"$8", src:"Torre", tier:"yes", loom:"033651978f7d4146886fd6ec7dedaf2a", why:"MD (Nigeria) now patient-care coordinator for US/UK practices; telemedicine. Fluent, slight accent."},
-  {n:"Jobelyn Faulmino", rate:"$7", src:"OnlineJobs", tier:"yes", loom:"4c381d3a3b2545d48101145d389f317c", why:"16 yrs phone support (CS, tech, patient-care, verification/payments). Comfortable w/ US clients — strong value at $7."},
-  {n:"Dave Leonardo", rate:"$8", src:"OnlineJobs", tier:"yes", loom:"315810280a46410fb023db22614355ff", why:"Remote nurse — phone + video intake (Georgia pediatric). Process-oriented, clear English."},
-  {n:"Maryam Blanco", rate:"$6–10", src:"OnlineJobs", tier:"yes", loom:"354eea4fc37249dca237a5bbe2af1c2e", why:"RN, 3+ yrs healthcare admin & patient care; flexible on rate. Calms skeptical patients well."},
-  {n:"Ma. Liwaya Rinabeth Lobiano", rate:"$8", src:"OnlineJobs", tier:"yes", loom:"a508a1d8338c4674bb2b9fe4c6fd45a0", why:"6 yrs virtual medical receptionist, 8 hrs/day patient calls. Warm, reassuring."},
-  {n:"Angela Flordeliz", rate:"$7", src:"OnlineJobs", tier:"yes", loom:"69521afe1a224f6fb55b355b6a7cb2ed", why:"US-insurance provider advocate / escalation — eligibility, benefits, denied claims. Great for billing Qs; value at $7."},
-  {n:"Justine Mae Amon", rate:"$10", src:"OnlineJobs", tier:"yes", loom:"21371508c5434160bc126f8602cfe0d0", why:"Fluent, natural English; diverse client-facing. Less healthcare-specific but a genuinely warm phone presence."},
-  {n:"Nyakno Peter", rate:"$6", src:"No profile link", tier:"yes", loom:"400969ae0abc4adbbc09b7381bbd5fb6", why:"RN + medical VA, 4 yrs patient coordination, scheduling, EMR (SimplePractice, DrChrono). Lowest rate."},
+  {n:"Alejandra Borbolla Sarachaga", rate:"$15", src:"LatAm · no profile", loom:"b4896fa8cafe43429d4f5094c0f91b2f", sep:"⚠ No transcript — watch manually to judge", why:"Highest ask at $15/hr. <span class='flag'>No auto-transcript</span> — watch to judge the voice."},
+  {n:"Monique Belardo", rate:"$8", src:"OnlineJobs", loom:"e6719096ec7a4459a83d34265b84c088", why:"<span class='flag'>No transcript generated</span> — watch to judge."},
+  {n:"Pearl Torremocha", rate:"$7", src:"OnlineJobs", loom:"357ae4f98d8b430b9db4b8e92dbd6f86", dead:true, why:"Profile complete, $7 good value. <span class='flag'>⚠ Loom wouldn't load (3 tries)</span> — try, else re-request."},
+  {n:"Andy Ramos", rate:"$8", src:"OnlineJobs", loom:"3d7cd68eb9b04e5abc46f04c749b18d1", dead:true, why:"<span class='flag'>⚠ Loom wouldn't load</span> — try, else re-request."},
 
-  {n:"Julio M Cordova Jr", rate:"$7–8", src:"OnlineJobs · 3 takes", tier:"maybe", loom:"4b5223e995664731b2325632e7f0fec1", loom2:"5dd830b760b147b68992fd037c1cdb65", why:"Licensed psychometrician; patient-care coordinator (Arizona counseling clinic). Fluent — but submitted 3× (instruction-following?)."},
-  {n:"Novisse Anne Oding", rate:"$8", src:"No profile link", tier:"maybe", loom:"1d69f4737c7c4b779fa6d1a42cbeda36", why:"8–10 yrs call-center / patient & customer phone; confident English. Experienced but generic."},
-  {n:"Ma. Imelda Balberan", rate:"$8", src:"OnlineJobs", tier:"maybe", loom:"4ef66d01d1c7406e8f0005df2b83f72e", why:"CS at Teleperformance + sales/social manager. No healthcare yet; verify."},
-  {n:"Ner Porras", rate:"$9", src:"No profile", tier:"maybe", loom:"9301d48819e74ccbbcd9c4197157c3d9", why:"~2 yrs, remote scheduler at Acclaim Dental (Virginia). Lighter experience."},
-  {n:"Cecilio Sabroso Jr", rate:"$10", src:"OnlineJobs", tier:"maybe", loom:"1d58c9c06ed548148857ba25a8743847", why:"Fluent but answers stayed generic ('world-class service'); no healthcare specifics; $10 top of band."},
-  {n:"Charie Jean Temones", rate:"$10", src:"OnlineJobs", tier:"maybe", loom:"1ebf12456e4e43feb28039769d5d8e79", why:"Fluent, friendly — but example was a tour-company driver (non-medical); $10 top of band."},
-  {n:"Michael Peralta", rate:"$7", src:"No profile", tier:"maybe", loom:"c8d135e9d5924407993a128b943c84d7", why:"Freelance medical interpreter — knows terminology & empathy, but interpreting isn't phone-coordination."},
-  {n:"Juan Jose Hernandez Lira", rate:"$9", src:"LatAm · no profile", tier:"maybe", loom:"19969760ba3444aea535ac54978eb0f7", why:"US-insurance CS (Medicare, Rx plans). English understandable but less polished than the top group."},
-
-  {n:"Alejandra Borbolla Sarachaga", rate:"$15", src:"LatAm · no profile", tier:"pending", loom:"b4896fa8cafe43429d4f5094c0f91b2f", why:"Highest ask at $15/hr. <span class='flag'>No auto-transcript</span> — watch to judge the voice."},
-  {n:"Monique Belardo", rate:"$8", src:"OnlineJobs", tier:"pending", loom:"e6719096ec7a4459a83d34265b84c088", why:"<span class='flag'>No transcript generated</span> — watch to judge."},
-  {n:"Pearl Torremocha", rate:"$7", src:"OnlineJobs", tier:"pending", loom:"357ae4f98d8b430b9db4b8e92dbd6f86", dead:true, why:"Profile complete, $7 good value. <span class='flag'>⚠ Loom wouldn't load (3 tries)</span> — may be dead; try, else re-request."},
-  {n:"Andy Ramos", rate:"$8", src:"OnlineJobs", tier:"pending", loom:"3d7cd68eb9b04e5abc46f04c749b18d1", dead:true, why:"<span class='flag'>⚠ Loom wouldn't load</span> — may be dead; try, else re-request."},
-
-  {n:"Milasol S. Buenaventura", rate:"$8", src:"LinkedIn", tier:"no", loom:"e484e1ccccc244b1b88f7a06a852a5da", why:"Strong on paper (10 yr BPO) but <b>recorded in Tagalog</b> — can't verify C1 English for an English-voice role."},
+  {n:"Milasol S. Buenaventura", rate:"$8", src:"LinkedIn", loom:"e484e1ccccc244b1b88f7a06a852a5da", sep:"Pass", why:"Strong on paper (10 yr BPO) but <b>recorded in Tagalog</b> — can't verify C1 English for an English-voice role."},
 ];
 
 const KEY = "diata-phone-auditions-v2";
@@ -137,7 +132,7 @@ function decide(n, v){
   store[n].d = (store[n].d === v) ? "" : v;
   save();
   const card = document.getElementById(cid(n));
-  card.className = "card" + (store[n].d ? " d-"+store[n].d : "");
+  card.className = "card" + (store[n].d ? " d-"+store[n].d : "") + (card.dataset.dead==="1" ? " dead" : "");
   card.querySelectorAll(".vb").forEach(b => b.classList.remove("on"));
   if(store[n].d) card.querySelector(".vb."+store[n].d).classList.add("on");
   tally();
@@ -163,24 +158,25 @@ function sendPicks(){
   if(y.length) b += "YES ("+y.length+"):\n" + y.join("\n") + "\n\n";
   if(m.length) b += "MAYBE ("+m.length+"):\n" + m.join("\n") + "\n\n";
   if(n.length) b += "NO ("+n.length+"):\n" + n.join("\n") + "\n";
-  const subject = "Phone auditions — my picks";
-  location.href = `mailto:caroline@diatahealth.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(b)}`;
+  location.href = `mailto:caroline@diatahealth.com?subject=${encodeURIComponent("Phone auditions — my picks")}&body=${encodeURIComponent(b)}`;
 }
 
 const list = document.getElementById("list");
-TIERS.forEach(t => {
-  const grp = C.filter(c => c.tier === t.key);
-  if(!grp.length) return;
-  const h = document.createElement("div");
-  h.className = "tier";
-  h.textContent = t.label + "  (" + grp.length + ")";
-  list.appendChild(h);
-  grp.forEach(c => {
-    const st = store[c.n] || {};
-    const card = document.createElement("div");
-    card.className = "card" + (st.d ? " d-"+st.d : "") + (c.dead ? " dead" : "");
-    card.id = cid(c.n);
-    card.innerHTML = `
+C.forEach((c, i) => {
+  if(c.sep){
+    const d = document.createElement("div");
+    d.className = "divider";
+    d.textContent = c.sep;
+    list.appendChild(d);
+  }
+  const st = store[c.n] || {};
+  const card = document.createElement("div");
+  card.className = "card" + (st.d ? " d-"+st.d : "") + (c.dead ? " dead" : "");
+  card.id = cid(c.n);
+  if(c.dead) card.dataset.dead = "1";
+  card.innerHTML = `
+    <div class="rank">${i+1}</div>
+    <div class="body">
       <div class="row1">
         <span class="name">${c.n}</span>
         <span class="rate">${c.rate}${c.rate!=="—"?"/hr":""}</span>
@@ -195,9 +191,9 @@ TIERS.forEach(t => {
           <button class="vb no ${st.d==="no"?"on":""}" onclick="decide('${c.n.replace(/'/g,"\\'")}','no')">✕</button>
         </div>
       </div>
-      <textarea class="note" placeholder="Note…" onchange="setNote('${c.n.replace(/'/g,"\\'")}', this.value)">${st.note||""}</textarea>`;
-    list.appendChild(card);
-  });
+      <textarea class="note" placeholder="Note…" onchange="setNote('${c.n.replace(/'/g,"\\'")}', this.value)">${st.note||""}</textarea>
+    </div>`;
+  list.appendChild(card);
 });
 tally();
 </script>
