@@ -100,7 +100,7 @@
 
     <div class="field"><label for="f_name">Full name</label><input type="text" id="f_name" placeholder="e.g. Maria Santos" autocomplete="off"></div>
     <div class="field"><label for="f_email">Email</label><input type="email" id="f_email" placeholder="you@email.com" autocomplete="off"></div>
-    <div class="field"><label for="f_oj">OnlineJobs profile link</label><input type="text" id="f_oj" placeholder="https://www.onlinejobs.ph/jobseekers/profile/..." autocomplete="off"></div>
+    <div class="field"><label for="f_oj">Profile link — OnlineJobs, LinkedIn, or resume <span style="font-weight:400;opacity:.65">(optional — leave blank if you don't have one)</span></label><input type="text" id="f_oj" placeholder="OnlineJobs, LinkedIn, or resume link — or leave blank" autocomplete="off"></div>
     <div class="field"><label for="f_rate">Desired hourly rate (USD)</label><input type="text" id="f_rate" placeholder="e.g. $8" autocomplete="off"></div>
 
     <label class="check">
@@ -166,7 +166,7 @@
 
   function ok(el,min){ return el.value.trim().length>=(min||1); }
   function refresh(){
-    startBtn.disabled = !(ok(f_name,2) && f_email.value.indexOf('@')>0 && ok(f_oj,4) && ok(f_rate,1) && cb.checked);
+    startBtn.disabled = !(ok(f_name,2) && f_email.value.indexOf('@')>0 && ok(f_rate,1) && cb.checked);
   }
   [f_name,f_email,f_oj,f_rate].forEach(function(el){ el.addEventListener('input',refresh); });
   cb.addEventListener('change',refresh);
