@@ -37,8 +37,8 @@
   .send{margin-left:auto;font-family:system-ui;cursor:pointer;border:none;
     background:var(--navy);color:#fff;font-weight:700;font-size:13px;padding:8px 14px;border-radius:9px;}
   .send:active{opacity:.8;}
-  .divider{font-family:Georgia,serif;font-weight:700;color:var(--amber);font-size:12.5px;
-    text-transform:uppercase;letter-spacing:.05em;margin:20px 2px 10px;
+  .divider{font-family:Georgia,serif;font-weight:700;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.05em;margin:22px 2px 10px;
     padding-bottom:5px;border-bottom:1.5px solid var(--line);}
   .card{display:flex;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:14px;
     padding:13px 14px 11px;margin-bottom:10px;transition:border-color .12s,opacity .12s;}
@@ -79,48 +79,49 @@
 <div class="wrap">
   <div class="topbar">
     <div class="brand">Diata Health</div>
-    <h1>Phone Coordinator — Auditions, best → last</h1>
+    <h1>Phone Coordinator — re-sorted 7/15</h1>
     <div class="tallyrow" id="tally"></div>
     <div id="saved" style="font-size:12px;font-weight:700;margin-top:5px;min-height:15px;opacity:0;transition:opacity .3s;"></div>
   </div>
-  <p style="font-size:12.5px;color:var(--muted);margin:2px 2px 4px;">Ranked on polish + clear English + warmth. Go top to bottom: tap <b>▶ Listen</b>, then set <b>✓ / ~ / ✕</b> and add a note. Saves on your phone. <b>Send my picks</b> emails me your list.</p>
+  <p style="font-size:12.5px;color:var(--muted);margin:2px 2px 4px;">Sections: <b>Listen next</b> (for your polish + confidence bar) &rarr; <b>Interviewed</b> &rarr; the rest. Your ✓/~/✕ + notes are saved from before. Tap <b>▶ Listen</b>, mark, note, then <b>Send my picks</b>.</p>
   <div id="list"></div>
 </div>
 
 <script>
 const SHARE = id => `https://www.loom.com/share/${id}`;
-// Ranked best -> last on: polished/clear English + warm/kind + premium feel.
 const C = [
-  {n:"Abegail Ang", rate:"$10", src:"OnlineJobs", loom:"402c1fa7fa3345d9a8de879e7f666f0c", why:"Most polished, articulate, confident English. 9 yrs client-facing (CS manager, onboarding, BDR). Sounds premium."},
-  {n:"Loren Mae Flores", rate:"$10", src:"OnlineJobs", loom:"56b09583b5a141daacc61f57dd945650", why:"★ <b>The one you flagged (interview Wed 9:10a).</b> Warmest, most natural voice — home office, husband + seven rescued dogs. Generalist, not clinical."},
-  {n:"Cornelio B. Manzano III, MD", rate:"$10", src:"OnlineJobs", loom:"25639f84576c41d3a58e465aff73ad0e", why:"Calm, fluent, most on-point: an MD who already works GLP-1 / weight-loss clinics. Premium + understanding."},
-  {n:"Jhon Christian Las", rate:"$8", src:"OnlineJobs", loom:"33a72aa541154057b4eb4ad14ce01771", why:"Fluent and genuinely empathetic ('I understand, and I'm sorry — let me help you'). RN + patient-care coordinator. Great value."},
-  {n:"Justine Mae Amon", rate:"$10", src:"OnlineJobs", loom:"21371508c5434160bc126f8602cfe0d0", why:"Fluent, natural, warm phone presence. Less healthcare, but hits polish + kindness squarely."},
-  {n:"Bethyll De La Cura", rate:"$10", src:"OnlineJobs", loom:"2498f6f8d6f84f738ed30eac26001ec3", why:"Reassuring, warm RN (since 2009); good with anxious patients."},
-  {n:"Christopher Buffard", rate:"—", src:"Indeed · Brazil", loom:"4120d7f67ee34a60bf3496a46552d0be", why:"Mature, professional, multilingual (EN/FR/PT); appointment-setter. Polished — <b>listen to confirm warmth.</b>"},
-  {n:"Ma. Liwaya Rinabeth Lobiano", rate:"$8", src:"OnlineJobs", loom:"a508a1d8338c4674bb2b9fe4c6fd45a0", why:"Warm, reassuring; 6 yrs virtual medical receptionist, 8 hrs/day of patient calls."},
-  {n:"Gemma Macalua", rate:"$10", src:"OnlineJobs", loom:"a0241b9735c443f8bd2b7b87713b7977", why:"Very relevant (5+ yrs US healthcare call center); English a touch less crisp than the top."},
-  {n:"Maryam Blanco", rate:"$6–10", src:"OnlineJobs", loom:"354eea4fc37249dca237a5bbe2af1c2e", why:"RN, calms skeptical patients; flexible on rate."},
-  {n:"Dave Leonardo", rate:"$8", src:"OnlineJobs", loom:"315810280a46410fb023db22614355ff", why:"Clear, process-oriented remote nurse (phone + video intake); warmth moderate."},
-  {n:"Goodness Ughachukwu", rate:"$8", src:"Torre", loom:"033651978f7d4146886fd6ec7dedaf2a", why:"Premium (MD, now patient-care coordinator), but a slight accent vs. the top group."},
-  {n:"Jobelyn Faulmino", rate:"$7", src:"OnlineJobs", loom:"4c381d3a3b2545d48101145d389f317c", why:"Seasoned (16 yrs phone support), US-comfortable, excellent value at $7."},
-  {n:"Angela Flordeliz", rate:"$7", src:"OnlineJobs", loom:"69521afe1a224f6fb55b355b6a7cb2ed", why:"Great for billing questions (US-insurance advocate); more transactional than warm."},
-  {n:"Nyakno Peter", rate:"$6", src:"No profile link", loom:"400969ae0abc4adbbc09b7381bbd5fb6", why:"Relevant RN/VA, lowest rate; less standout on polish. No profile link."},
-  {n:"Novisse Anne Oding", rate:"$8", src:"No profile link", loom:"1d69f4737c7c4b779fa6d1a42cbeda36", why:"Confident but generic; 8–10 yrs call-center / patient phone work."},
-  {n:"Ner Porras", rate:"$9", src:"No profile", loom:"9301d48819e74ccbbcd9c4197157c3d9", why:"Only ~2 yrs (remote dental scheduler). Lighter experience."},
-  {n:"Ma. Imelda Balberan", rate:"$8", src:"OnlineJobs", loom:"4ef66d01d1c7406e8f0005df2b83f72e", why:"CS at Teleperformance + sales; no healthcare yet — verify."},
-  {n:"Julio M Cordova Jr", rate:"$7–8", src:"OnlineJobs · 3 takes", loom:"4b5223e995664731b2325632e7f0fec1", loom2:"5dd830b760b147b68992fd037c1cdb65", why:"Fluent (psychometrician, AZ counseling clinic) — but submitted 3× (follow-instructions flag)."},
-  {n:"Juan Jose Hernandez Lira", rate:"$9", src:"LatAm · no profile", loom:"19969760ba3444aea535ac54978eb0f7", why:"US-insurance CS (Medicare); understandable but less polished English."},
-  {n:"Cecilio Sabroso Jr", rate:"$10", src:"OnlineJobs", loom:"1d58c9c06ed548148857ba25a8743847", why:"Fluent but generic answers ('world-class service'); no healthcare specifics; $10 top of band."},
-  {n:"Charie Jean Temones", rate:"$10", src:"OnlineJobs", loom:"1ebf12456e4e43feb28039769d5d8e79", why:"Fluent, friendly — but example was a tour-company driver (non-medical); $10 top of band."},
-  {n:"Michael Peralta", rate:"$7", src:"No profile", loom:"c8d135e9d5924407993a128b943c84d7", why:"Freelance medical interpreter — knows terminology & empathy, but interpreting isn't phone-coordination."},
+  {n:"Novisse Anne Oding", rate:"$8", src:"No profile link", loom:"1d69f4737c7c4b779fa6d1a42cbeda36", sep:"★ Listen next — for your polish + confidence bar", why:"Confident; 8–10 yrs phone / patient & customer work, WFH since 2017. Reads self-assured — worth hearing for premium presence."},
+  {n:"Cecilio Sabroso Jr", rate:"$10", src:"OnlineJobs", loom:"1d58c9c06ed548148857ba25a8743847", why:"Explicitly premium-service framing ('world-class service, smile so it's audible'); fluent. Listen for whether the polish truly lands."},
+  {n:"Gemma Macalua", rate:"$10", src:"OnlineJobs", loom:"a0241b9735c443f8bd2b7b87713b7977", why:"Polished + real US-healthcare depth (prior auth, appeals, scheduling). Listen for premium tone."},
+  {n:"Abegail Ang", rate:"$10", src:"OnlineJobs", loom:"402c1fa7fa3345d9a8de879e7f666f0c", why:"<b>Re-listen.</b> I heard 'most polished + confident of the group'; you heard 'young.' With accent off the table, worth a second pass for the sales-y first voice."},
+  {n:"Christopher Buffard", rate:"—", src:"Indeed · Brazil", loom:"4120d7f67ee34a60bf3496a46552d0be", why:"Your 'Good!' maybe — mature, professional, EN/FR/PT. One of the more premium-sounding of the pool. Decide: second round?"},
 
-  {n:"Alejandra Borbolla Sarachaga", rate:"$15", src:"LatAm · no profile", loom:"b4896fa8cafe43429d4f5094c0f91b2f", sep:"⚠ No transcript — watch manually to judge", why:"Highest ask at $15/hr. <span class='flag'>No auto-transcript</span> — watch to judge the voice."},
-  {n:"Monique Belardo", rate:"$8", src:"OnlineJobs", loom:"e6719096ec7a4459a83d34265b84c088", why:"<span class='flag'>No transcript generated</span> — watch to judge."},
-  {n:"Pearl Torremocha", rate:"$7", src:"OnlineJobs", loom:"357ae4f98d8b430b9db4b8e92dbd6f86", dead:true, why:"Profile complete, $7 good value. <span class='flag'>⚠ Loom wouldn't load (3 tries)</span> — try, else re-request."},
+  {n:"Loren Mae Flores", rate:"$10", src:"OnlineJobs", loom:"56b09583b5a141daacc61f57dd945650", sep:"Interviewed — Wed 7/15", why:"★ <b>Your top pick.</b> <span class='flag'>⚠ Her OnlineJobs profile is now DEACTIVATED</span> — she may already be juggling offers (supports your job-jump worry). Move fast if she's the one. (Interview wasn't captured in Granola.)"},
+  {n:"Cornelio B. Manzano III, MD", rate:"$10", src:"OnlineJobs", loom:"25639f84576c41d3a58e465aff73ad0e", why:"Interviewed. Deeply on-model — MD who ran GLP-1 free-consult calls + functional-med exposure; calm, professional, prefers phone. Warmth is measured, not effusive (your read is fair for a sales-y first voice). <b>Not a job-hopper</b> — left both roles for real reasons. Wants $10, 40 hrs, 12-hr time diff."},
+  {n:"Ma. Liwaya Rinabeth Lobiano", rate:"$8", src:"OnlineJobs", loom:"a508a1d8338c4674bb2b9fe4c6fd45a0", why:"Interviewed (Maria). Genuinely lovely, warm, humble, reliable; real admin/scheduling/CS (Optum). But English polish + confidence aren't premium-first-voice level ('I won't be one of your top picks'). <b>Perfect for a future scheduling/support seat</b> — not this one."},
+
+  {n:"Jhon Christian Las", rate:"$8", src:"OnlineJobs", loom:"33a72aa541154057b4eb4ad14ce01771", sep:"The rest of the pool", why:"RN + BPO + patient-care coordinator; fluent, genuinely empathetic. You flagged mid accent — but very kind. Value at $8."},
+  {n:"Justine Mae Amon", rate:"$10", src:"OnlineJobs", loom:"21371508c5434160bc126f8602cfe0d0", why:"You: 'too foreign for sales, good for support.' Park as a <b>support/billing</b> option (she knows insurance), not the premium voice."},
+  {n:"Bethyll De La Cura", rate:"$10", src:"OnlineJobs", loom:"2498f6f8d6f84f738ed30eac26001ec3", why:"Warm, kind RN — but you felt 'not premium enough.'"},
+  {n:"Maryam Blanco", rate:"$6–10", src:"OnlineJobs", loom:"354eea4fc37249dca237a5bbe2af1c2e", why:"RN, calms skeptical patients; flexible on rate."},
+  {n:"Dave Leonardo", rate:"$8", src:"OnlineJobs", loom:"315810280a46410fb023db22614355ff", why:"Remote nurse, phone + video intake; clear, process-oriented; warmth moderate."},
+  {n:"Goodness Ughachukwu", rate:"$8", src:"Torre", loom:"033651978f7d4146886fd6ec7dedaf2a", why:"MD &rarr; patient-care coordinator; fluent, slight accent."},
+  {n:"Jobelyn Faulmino", rate:"$7", src:"OnlineJobs", loom:"4c381d3a3b2545d48101145d389f317c", why:"16 yrs phone support, US-comfortable; strong value at $7."},
+  {n:"Angela Flordeliz", rate:"$7", src:"OnlineJobs", loom:"69521afe1a224f6fb55b355b6a7cb2ed", why:"US-insurance advocate — great for billing; more transactional than warm."},
+  {n:"Nyakno Peter", rate:"$6", src:"No profile link", loom:"400969ae0abc4adbbc09b7381bbd5fb6", why:"RN/medical VA; relevant, lowest rate; less standout on polish."},
+  {n:"Ner Porras", rate:"$9", src:"No profile", loom:"9301d48819e74ccbbcd9c4197157c3d9", why:"~2 yrs, remote dental scheduler (US). Lighter experience."},
+  {n:"Ma. Imelda Balberan", rate:"$8", src:"OnlineJobs", loom:"4ef66d01d1c7406e8f0005df2b83f72e", why:"CS at Teleperformance + sales; no healthcare yet — verify."},
+  {n:"Julio M Cordova Jr", rate:"$7–8", src:"OnlineJobs · 3 takes", loom:"4b5223e995664731b2325632e7f0fec1", loom2:"5dd830b760b147b68992fd037c1cdb65", why:"Fluent (psychometrician, AZ clinic) — but submitted 3× (follow-instructions flag)."},
+  {n:"Juan Jose Hernandez Lira", rate:"$9", src:"LatAm · no profile", loom:"19969760ba3444aea535ac54978eb0f7", why:"US-insurance CS; understandable but less polished."},
+  {n:"Charie Jean Temones", rate:"$10", src:"OnlineJobs", loom:"1ebf12456e4e43feb28039769d5d8e79", why:"Fluent, friendly — but example was non-medical; $10 top of band."},
+  {n:"Michael Peralta", rate:"$7", src:"No profile", loom:"c8d135e9d5924407993a128b943c84d7", why:"Medical interpreter — terminology + empathy, but interpreting isn't phone-coordination."},
+
+  {n:"Alejandra Borbolla Sarachaga", rate:"$15", src:"LatAm · no profile", loom:"b4896fa8cafe43429d4f5094c0f91b2f", sep:"No transcript — watch manually", why:"Highest ask $15. <span class='flag'>No auto-transcript</span> — watch to judge."},
+  {n:"Monique Belardo", rate:"$8", src:"OnlineJobs", loom:"e6719096ec7a4459a83d34265b84c088", why:"<span class='flag'>No transcript</span> — watch to judge."},
+  {n:"Pearl Torremocha", rate:"$7", src:"OnlineJobs", loom:"357ae4f98d8b430b9db4b8e92dbd6f86", dead:true, why:"<span class='flag'>⚠ Loom wouldn't load</span> — try, else re-request."},
   {n:"Andy Ramos", rate:"$8", src:"OnlineJobs", loom:"3d7cd68eb9b04e5abc46f04c749b18d1", dead:true, why:"<span class='flag'>⚠ Loom wouldn't load</span> — try, else re-request."},
 
-  {n:"Milasol S. Buenaventura", rate:"$8", src:"LinkedIn", loom:"e484e1ccccc244b1b88f7a06a852a5da", sep:"Pass", why:"Strong on paper (10 yr BPO) but <b>recorded in Tagalog</b> — can't verify C1 English for an English-voice role."},
+  {n:"Milasol S. Buenaventura", rate:"$8", src:"LinkedIn", loom:"e484e1ccccc244b1b88f7a06a852a5da", sep:"Pass", why:"Recorded in Tagalog — can't verify English."},
 ];
 
 const KEY = "diata-phone-auditions-v2";
