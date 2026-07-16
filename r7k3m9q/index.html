@@ -79,37 +79,37 @@
 <div class="wrap">
   <div class="topbar">
     <div class="brand">Diata Health</div>
-    <h1>Phone Coordinator — re-sorted 7/15</h1>
+    <h1>Phone Coordinator — refreshed 7/15 (20 new reads)</h1>
     <div class="tallyrow" id="tally"></div>
     <div id="saved" style="font-size:12px;font-weight:700;margin-top:5px;min-height:15px;opacity:0;transition:opacity .3s;"></div>
   </div>
-  <p style="font-size:12.5px;color:var(--muted);margin:2px 2px 4px;">Sections: <b>Listen next</b> (for your polish + confidence bar) &rarr; <b>Interviewed</b> &rarr; the rest. Your ✓/~/✕ + notes are saved from before. Tap <b>▶ Listen</b>, mark, note, then <b>Send my picks</b>.</p>
+  <p style="font-size:12.5px;color:var(--muted);margin:2px 2px 4px;">Top section = <b>🆕 20 new auditions</b>, now with my transcript read, best-first for your premium bar (transcripts show content + fluency, <b>not</b> vocal polish — that's your ear). Then <b>Listen next</b> &rarr; <b>Interviewed</b> &rarr; the rest. Your ✓/~/✕ + notes are saved. Tap <b>▶ Listen</b>, mark, note, then <b>Send my picks</b>.</p>
   <div id="list"></div>
 </div>
 
 <script>
 const SHARE = id => `https://www.loom.com/share/${id}`;
 const C = [
-  {n:"Daniela Torrez Jiguchi", rate:"$9", src:"Torre — auditioned", loom:"911aed828acf46b6b7ea1fffd68eeab6", sep:"🆕 New auditions (7/11–7/15) — brand new, for your ear", why:"Torre match #1 who followed through — confirmed she submitted. Brand new; I can't hear polish, so this is a fresh listen for you."},
-  {n:"Erick Dominguez", rate:"$8", src:"Torre — auditioned", loom:"f3303b539d304614b84b37249045de96", why:"Torre match — auditioned 7/15. Fresh listen."},
-  {n:"Anatolia Traconis", rate:"$9", src:"Torre — auditioned", loom:"db3720ba093f4f67a56b37f6d71451a8", why:"Torre match — auditioned 7/14. Fresh listen."},
-  {n:"Danica Jankie Phillips", rate:"$10", src:"Torre — auditioned", loom:"3ddd6e77322845dc9d6c3a0b0f632b51", why:"Torre match — auditioned 7/14. Fresh listen."},
-  {n:"Katherine Ramos Larenas", rate:"$7", src:"Torre — auditioned", loom:"f20e19fa89ed48269b17476d1f966be7", why:"Torre match — auditioned 7/13. Fresh listen."},
-  {n:"Precious Chinweuba", rate:"$5–6", src:"Torre — auditioned", loom:"716cd314bcfa4e7a8f89242b7efb53fe", why:"Torre match — auditioned. Low rate ask. Fresh listen."},
-  {n:"Marsha Clarke", rate:"$6", src:"Torre — auditioned", loom:"7a85c67c9ff646a2ac0a57ad543745c0", why:"Torre potential-match — auditioned 7/14. Fresh listen."},
-  {n:"Santiago Gutierrez", rate:"$8", src:"Torre — auditioned", loom:"3f1619bc0a544b4cb4e395465b999acd", why:"Torre potential-match (Marvin Santiago Gutierrez) — did audition 7/14 despite the blank Torre chat. Fresh listen."},
-  {n:"Robson Santana Leão", rate:"$15", src:"Indeed/OnlineJobs", loom:"e71ea77ad8914534b1b0d80abc622aee", why:"Auditioned 7/11 (strong on paper, C2 English). Rate ask $15. Fresh listen."},
-  {n:"Patricia Tareskiewicz", rate:"$10", src:"Indeed · Brazil", loom:"faafb27c015d46b4abf48aaecf057635", why:"Auditioned 7/14. Fresh listen."},
-  {n:"Felipe Koslowski", rate:"$10", src:"Indeed · Brazil", loom:"5fbfa0a29f1d4ed695f0b6d2876661d0", why:"Auditioned 7/15. Fresh listen."},
-  {n:"Lívia Veloso Leos", rate:"$10", src:"Indeed · Brazil", loom:"883e57deeaaf40f5bd38fe1615198f01", why:"Auditioned 7/15. Fresh listen."},
-  {n:"Valdelino da Silva", rate:"$12", src:"Indeed · Brazil", loom:"3ddb4cf1a40b4f7084bd4e67e5c92396", why:"Auditioned 7/15. Fresh listen."},
-  {n:"Emanuel Zambujo", rate:"$8", src:"Indeed · Brazil", loom:"4f30fb314c2d44f6ba99615d13464cac", why:"Auditioned 7/15. Fresh listen."},
-  {n:"Chad Sze Seng Tan", rate:"$8", src:"Indeed", loom:"f81a6ce6af71481c8afbf2ca629ee26b", why:"Auditioned 7/15. Fresh listen."},
-  {n:"Tamyla Torres", rate:"$5", src:"Indeed · Brazil", loom:"104be1706ae54b0b8d999b0c299d6d92", why:"Auditioned 7/15. Low rate ask. Fresh listen."},
-  {n:"Allan Freitas", rate:"$5.50", src:"Indeed · Brazil", loom:"3e9f4e1ec4bd4242baba03355bb79731", why:"Auditioned 7/13. Fresh listen."},
-  {n:"Letícia Martinez", rate:"$15", src:"Indeed · Brazil", loom:"e5cc2713c7f04fe391bba4617073ec2c", why:"Auditioned 7/14. Rate ask $15. Fresh listen."},
-  {n:"Miriam Dias de Sousa Schiavo", rate:"⚠ 800", src:"Indeed · Brazil", loom:"7777eaaf98884253bafa032632b94e0a", why:"Auditioned 7/14. <span class='flag'>⚠ Rate entered '800' — likely monthly, not hourly.</span> Fresh listen."},
-  {n:"Rainier Duarte", rate:"⚠ mo.", src:"Indeed · Brazil", loom:"007224847dbc4f0888c641ca591773d3", why:"Auditioned 7/15. <span class='flag'>⚠ Rate '$4,000/$5,000' = monthly.</span> Fresh listen."},
+  {n:"Kennedy de Medeiros", rate:"$15", src:"Indeed · Brazil", loom:"7b6a9e206297444c8e24f70f9c428a75", sep:"🆕 New auditions — my transcript read (content + English fluency; the vocal-polish/warmth call is still yours to hear). Ordered best-first for your premium bar.", why:"<b>Most 'luxury concierge' résumé of the batch</b> — customer-success for Iberia (Spanish national airline), Trip.com, and Ukio (luxury mid-term accommodations). Articulate, composed, professional English. Gap: no <i>patient</i> work yet (trainable). <span class='flag'>Rate $15 — top of band, negotiate.</span>"},
+  {n:"Marsha Clarke", rate:"$6", src:"Torre · Jamaica", loom:"7a85c67c9ff646a2ac0a57ad543745c0", why:"<b>Strong + calm.</b> 3 yrs on US insurance-carrier calls (mental health / substance abuse) + 10 yrs customer service (airline recovery). Near-native English, measured de-escalation. Rate <b>$6</b> = excellent value."},
+  {n:"Sophia Malizu", rate:"$7", src:"Indeed", loom:"718ac4c85a3f404b9a14ddc9dbb0829f", why:"<b>Strongest medical fit.</b> 6 yrs medical VA at an ophthalmology clinic — patient calls, scheduling, refills, prior auth, billing. Fluent, organized, warm. Rate $7."},
+  {n:"Daniela Torrez Jiguchi", rate:"$9", src:"Torre — auditioned", loom:"911aed828acf46b6b7ea1fffd68eeab6", why:"Architect by training; 3 yrs customer service for US/Canada clients — articulate and polished, comfortable with many US accents. Lighter on true patient work. Rate $9."},
+  {n:"Chad Sze Seng Tan", rate:"$8", src:"Indeed · Brazil", loom:"f81a6ce6af71481c8afbf2ca629ee26b", why:"Broad, polished background — executive/admin assistant 5 yrs (Saudi) + call center (Dell, Concentrix) + former health aide. Composed and professional. Rate $8."},
+  {n:"Patricia Tareskiewicz", rate:"$10", src:"Indeed · Brazil", loom:"faafb27c015d46b4abf48aaecf057635", why:"Warm, empathetic — leads with creating 'a safe space'; strong de-escalation story (comforting a customer after a robbery/fraud). Rate $10."},
+  {n:"Erick Dominguez", rate:"$8", src:"Torre — auditioned", loom:"f3303b539d304614b84b37249045de96", why:"Relevant — made OBGYN patient calls (delivering pregnancy news, insurance, meds). Friendly, conversational. Rate $8."},
+  {n:"Tamyla Torres", rate:"$5", src:"Indeed · Brazil", loom:"104be1706ae54b0b8d999b0c299d6d92", why:"3 yrs customer support incl. phone sales; bilingual EN/PT, fluent and easy to follow. <b>Strong value at $5.</b>"},
+  {n:"Emanuel Zambujo", rate:"$8", src:"Indeed · Brazil", loom:"4f30fb314c2d44f6ba99615d13464cac", why:"São Paulo; 5 yrs customer support (retention + sales; phone/email/chat). Solid, personable. Rate $8."},
+  {n:"Anatolia Traconis", rate:"$9", src:"Torre — auditioned", loom:"db3720ba093f4f67a56b37f6d71451a8", why:"High-volume phone (100–200 calls/day call center) + leasing coordinator (20 outbound/day); appointment-scheduling fluent. Rate $9."},
+  {n:"Felipe Koslowski", rate:"$10", src:"Indeed · Brazil", loom:"5fbfa0a29f1d4ed695f0b6d2876661d0", why:"~10 yrs customer phone across many topics, some hospital support; calm 'solve it fast' style. Rate $10."},
+  {n:"Katherine Ramos Larenas", rate:"$7", src:"Torre — auditioned", loom:"f20e19fa89ed48269b17476d1f966be7", why:"Chile; ran patient calls at a dental office, calm options-based de-escalation; personable. <span class='flag'>Verify:</span> mentioned 'accessibility issues' — clarify what that means for a phone role. Rate $7."},
+  {n:"Precious Chinweuba", rate:"$5–6", src:"Torre — auditioned", loom:"716cd314bcfa4e7a8f89242b7efb53fe", why:"Nigeria; 5 yrs admin/customer support handling patient data + hospital/lab calls. Earnest; fluent with accent. Low ask $5–6."},
+  {n:"Robson Santana Leão", rate:"$15", src:"Indeed/OnlineJobs", loom:"e71ea77ad8914534b1b0d80abc622aee", why:"Polished English but <span class='flag'>no direct patient/customer-call experience</span> — business-English teacher (parent/student calls only); leaned on 'SPIN' sales theory. <span class='flag'>$15 is high for the gap.</span>"},
+  {n:"Santiago Gutierrez", rate:"$8", src:"Torre — auditioned", loom:"3f1619bc0a544b4cb4e395465b999acd", why:"10 months of scheduling physical/occupational-therapy calls; basic but relevant (Marvin Santiago Gutierrez). Rate $8."},
+  {n:"Allan Freitas", rate:"$5.50", src:"Indeed · Brazil", loom:"3e9f4e1ec4bd4242baba03355bb79731", why:"Brazil; ~1 yr customer service (delivery dispatch) — light experience, basic English. Rate $5.50."},
+  {n:"Miriam Dias de Sousa Schiavo", rate:"⚠ 800", src:"Indeed · Brazil", loom:"7777eaaf98884253bafa032632b94e0a", why:"10 yrs phone/email/chat CS; decent cost-objection answer (health 'overview,' not just a med). <span class='flag'>English is rough; ⚠ rate '800' = monthly.</span>"},
+  {n:"Rainier Duarte", rate:"⚠ mo.", src:"Indeed · Brazil", loom:"007224847dbc4f0888c641ca591773d3", why:"Warm opener; UPS assistant-manager (vendor negotiation) — customer calls but <span class='flag'>not patient-facing. ⚠ rate '$4–5k' = monthly.</span>"},
+  {n:"Letícia Martinez", rate:"$15", src:"Indeed · Brazil", loom:"e5cc2713c7f04fe391bba4617073ec2c", why:"<span class='flag'>Off-brief</span> — 49-sec generic self-pitch; skipped the actual questions. Rate ask $15. Pass unless you want to re-request."},
+  {n:"Valdelino da Silva", rate:"$12", src:"Indeed · Brazil", loom:"3ddb4cf1a40b4f7084bd4e67e5c92396", why:"<span class='flag'>Off-brief</span> — 1-min personal intro (English degree, wants to buy an apartment); didn't answer the prompts. Rate $12."},
 
   {n:"Novisse Anne Oding", rate:"$8", src:"No profile link", loom:"1d69f4737c7c4b779fa6d1a42cbeda36", sep:"★ Listen next — for your polish + confidence bar", why:"Confident; 8–10 yrs phone / patient & customer work, WFH since 2017. Reads self-assured — worth hearing for premium presence."},
   {n:"Cecilio Sabroso Jr", rate:"$10", src:"OnlineJobs", loom:"1d58c9c06ed548148857ba25a8743847", why:"Explicitly premium-service framing ('world-class service, smile so it's audible'); fluent. Listen for whether the polish truly lands."},
@@ -137,7 +137,9 @@ const C = [
   {n:"Charie Jean Temones", rate:"$10", src:"OnlineJobs", loom:"1ebf12456e4e43feb28039769d5d8e79", why:"Fluent, friendly — but example was non-medical; $10 top of band."},
   {n:"Michael Peralta", rate:"$7", src:"No profile", loom:"c8d135e9d5924407993a128b943c84d7", why:"Medical interpreter — terminology + empathy, but interpreting isn't phone-coordination."},
 
-  {n:"Alejandra Borbolla Sarachaga", rate:"$15", src:"LatAm · no profile", loom:"b4896fa8cafe43429d4f5094c0f91b2f", sep:"No transcript — watch manually", why:"Highest ask $15. <span class='flag'>No auto-transcript</span> — watch to judge."},
+  {n:"Danica Jankie Phillips", rate:"$10", src:"Torre · 🆕", loom:"3ddd6e77322845dc9d6c3a0b0f632b51", sep:"No transcript — watch manually", why:"🆕 Torre match — <span class='flag'>iOS recording, no auto-transcript.</span> Worth a manual watch."},
+  {n:"Lívia Veloso Leos", rate:"$10", src:"Indeed · Brazil · 🆕", loom:"883e57deeaaf40f5bd38fe1615198f01", why:"🆕 <span class='flag'>iOS recording, no auto-transcript.</span> Watch to judge."},
+  {n:"Alejandra Borbolla Sarachaga", rate:"$15", src:"LatAm · no profile", loom:"b4896fa8cafe43429d4f5094c0f91b2f", why:"Highest ask $15. <span class='flag'>No auto-transcript</span> — watch to judge."},
   {n:"Monique Belardo", rate:"$8", src:"OnlineJobs", loom:"e6719096ec7a4459a83d34265b84c088", why:"<span class='flag'>No transcript</span> — watch to judge."},
   {n:"Pearl Torremocha", rate:"$7", src:"OnlineJobs", loom:"357ae4f98d8b430b9db4b8e92dbd6f86", dead:true, why:"<span class='flag'>⚠ Loom wouldn't load</span> — try, else re-request."},
   {n:"Andy Ramos", rate:"$8", src:"OnlineJobs", loom:"3d7cd68eb9b04e5abc46f04c749b18d1", dead:true, why:"<span class='flag'>⚠ Loom wouldn't load</span> — try, else re-request."},
